@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="前言：SpingBoot作为spring官方后来开发的框架称为框架中一股清流，它去除了大量的xml配置文件，使用Maven简化了复杂的依赖管理，配合各种starter使用，基本可以为自动化配置，有快速启动容器，更加容易部署，创建独立的spring程序，嵌入式的Tomcat，缺点的话springboo"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Lothar"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="SpingBoot+Mybtis搭建流程"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="前言：SpingBoot作为spring官方后来开发的框架称为框架中一股清流，它去除了大量的xml配置文件，使用Maven简化了复杂的依赖管理，配合各种starter使用，基本可以为自动化配置，有快速启动容器，更加容易部署，创建独立的spring程序，嵌入式的Tomcat，缺点的话springboo"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Mr.Zhao"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://Lotharing.github.io/Lotharing.github.iohttp://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://Lotharing.github.io/Lotharing.github.iohttp://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>SpingBoot+Mybtis搭建流程 - Mr.Zhao</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Lotharing.github.io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+    <link rel="icon" href="[object Object]"/>
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Lotharing.github.io/">Lothar</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Lotharing.github.io/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Lotharing/Lotharing.github.io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536313390666&di=16c4d25b39933fe5772ffdb3701bd7ce&imgtype=0&src=http%3A%2F%2Fimg18.3lian.com%2Fd%2Ffile%2F201709%2F13%2Fbf84b0d8999b63446197e49df7561059.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>SpingBoot+Mybtis搭建流程</h1>
+                    
+                    <h2 class="post-subheading">
+                        对后台开发中使用SpringBoot+Mybtis作为基础架构的搭建流程，使用Maven，开发工具用的Idea
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by LuTong.Zhao on
+                        
+                        
+                            2018-09-09
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Lotharing.github.io/tags/《SpringBoot》/">#《SpringBoot》</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/Lotharing.github.io/categories/后台开发框架集成/">后台开发框架集成</a>
+
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>前言：SpingBoot作为spring官方后来开发的框架称为框架中一股清流，它去除了大量的xml配置文件，使用Maven简化了复杂的依赖管理，配合各种starter使用，基本可以为自动化配置，有快速启动容器，更加容易部署，创建独立的spring程序，嵌入式的Tomcat，缺点的话springboot更适合于做微服务，大型项目不是很适合。</p>
+<hr>
+<h4 id="SpringBoot的Main函数"><a href="#SpringBoot的Main函数" class="headerlink" title="SpringBoot的Main函数"></a>SpringBoot的Main函数</h4><ul>
+<li>该函数作为SpringBoot的启动方式，在项目搭建完成后可Run该类运行springboot项目</li>
+</ul>
+<h4 id="pom-xml"><a href="#pom-xml" class="headerlink" title="pom.xml"></a>pom.xml</h4><ul>
+<li><p>该配置文件是Maven的配置文件，主要写jar包的地址版本，以达到引入jar包的目的，在项目开发过程中更加利于jar这一块的改动</p>
+</li>
+<li><p>以及项目分工时候的依赖整合以上也是很方便</p>
+</li>
+</ul>
+<h4 id="application-properties配置文件"><a href="#application-properties配置文件" class="headerlink" title="application.properties配置文件"></a>application.properties配置文件</h4><ul>
+<li><p>该文件是springboot的配置文件，可以以yml的方式写，也可以用properties的方式写</p>
+</li>
+<li><p>主要配置jdbc 数据库连接池 Mybtis相关配置文件，实体类，参数等需要用的信息</p>
+</li>
+<li><p>因为在以往的xml中的配置在这里使用类来自动构建的</p>
+</li>
+</ul>
+<h4 id="Configuration注解"><a href="#Configuration注解" class="headerlink" title="@Configuration注解"></a>@Configuration注解</h4><ul>
+<li>该注解于配置类，在需要配置的例如数据库连接池，datasource，sessionFactory等类名上</li>
+</ul>
+<h4 id="DataSource的配置"><a href="#DataSource的配置" class="headerlink" title="DataSource的配置"></a>DataSource的配置</h4><ul>
+<li>使用@Value引入springboot配置文件中的jdbc值，用@bean让spring自动加载该类的配置主要配置数据库连接池以及连接信息，返回datasource</li>
+</ul>
+<h4 id="SessionFactory的配置"><a href="#SessionFactory的配置" class="headerlink" title="SessionFactory的配置"></a>SessionFactory的配置</h4><ul>
+<li><p>使用@value引用需要的属性</p>
+</li>
+<li><p>用AutoWired和Qualifier引入@bean名称为datasource的bean，同时指定该类的@bean为sqlSessionFactory</p>
+</li>
+<li><p>在该类中加载mybatis的配置文件，建立mapper路径，设置数据库连接池，设置实体扫描路径，返回mybtis需要的sqlsessionFactory</p>
+</li>
+</ul>
+<h4 id="TransactionManagementConfiguration事务的管理"><a href="#TransactionManagementConfiguration事务的管理" class="headerlink" title="TransactionManagementConfiguration事务的管理"></a>TransactionManagementConfiguration事务的管理</h4><ul>
+<li><p>继承TransactionManagementConfigurer类</p>
+</li>
+<li><p>Autowired注解引用dasource</p>
+</li>
+<li><p>复写annotationDrivenTransactionManager，返回值传递参数datasouece，在需要使用事务的地方加注解@Transaction</p>
+</li>
+</ul>
+<h4 id="Resource文件夹"><a href="#Resource文件夹" class="headerlink" title="Resource文件夹"></a>Resource文件夹</h4><ul>
+<li><p>配置Mybtis的配置文件，命名转换，标签列名，获得主键等配置信息</p>
+</li>
+<li><p>建立Mapper文件夹，存放于bean对应的mapper配置文件</p>
+</li>
+</ul>
+<h4 id="Dao"><a href="#Dao" class="headerlink" title="Dao"></a>Dao</h4><ul>
+<li>根据业务需要编写对应对数据库操作的接口，注意使用Mybtis不需要写实现类，因为Mybtis使用xml结合接口的方式实现对数据库的操作，优点是需求或者sql修改较为方便</li>
+</ul>
+<h4 id="Entry"><a href="#Entry" class="headerlink" title="Entry"></a>Entry</h4><ul>
+<li>编写需要操作的实体类，就例如登录注册需要一个user实体类</li>
+</ul>
+<h4 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h4><ul>
+<li><p>service类名上方有@service注解</p>
+</li>
+<li><p>首先写一个service接口，接口中写出需要操作的业务方法</p>
+</li>
+<li><p>写service接口的实现类，一般是调用dao的方法（用Autowired注解引入）</p>
+</li>
+<li><p>根据业务逻辑需要写相应的操作，注意在一些对数据库操作的类上根据需要加@Transactional注解，是对事物的管理</p>
+</li>
+</ul>
+<h4 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h4><ul>
+<li><p>类名上方需要加@RestController注解</p>
+</li>
+<li><p>@RequestMapping注解是指定请求的父路径</p>
+</li>
+<li><p>方法业务要RequestMapping注解，定位请求执行的方法，用map进行操作，返回一个map型的josn数据。</p>
+</li>
+</ul>
+<h4 id="DaoImpl-xml"><a href="#DaoImpl-xml" class="headerlink" title="DaoImpl.xml"></a>DaoImpl.xml</h4><ul>
+<li><p>该配置文件是对数据库的操作</p>
+</li>
+<li><p>mapper生命namspace是dao接口的路径，将sql的select，delete等语句用《select》 就是对应的标签包裹起来</p>
+</li>
+<li><p>标签的id一定要和dao接口的方法名称一致，这样就是mybtis对数据库操作的配置</p>
+</li>
+</ul>
+<h4 id="关于前台"><a href="#关于前台" class="headerlink" title="关于前台"></a>关于前台</h4><ul>
+<li><p>前台所需要的数据只需要去访问对应的接口，拿到json数据处理后展示在对应的前台页面</p>
+</li>
+<li><p>这里我是用的微信小程序测的</p>
+</li>
+<li><p>推荐一个测试请求的工具，postman</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>基本该篇主要讲解了springboot在搭建过程中和spring的不同点，至于Mybtis没有很详细的描述，看完会发现springboot在实现小模块的时候可以让开发速度提升，简化配置，maven管理等，main方法直接运行，自动部署tomcat端口，很方便，所以是开发微服务的首选。</p>
+</li>
+<li><p><a href="http://lothar.top/springboot-mybtis-Demo/." target="_blank" rel="noopener">可以看该springboot+mybtis的Demo</a></p>
+</li>
+</ul>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Lotharing/Lotharing.github.io" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2018 Lothar<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+                <p class="copyright text-muted">2018总访问量<span id="busuanzi_value_site_pv"></span>次</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="前言：本文没有什么技术性问题，就是为了描述SSM框架中单个框架所充当的什么角色，以及开发流程注意点，建议的开发流程
+
+1.持久层：DAO层（mapper层）（属于mybatis模块）
+DAO层：主要负责与数据库进行交互设计，用来处理数据的持久化工作。
+
+DAO层的设计首先是设计DAO的接口，也就是项"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Lothar"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="SSM集成框架的分层关系说明"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="前言：本文没有什么技术性问题，就是为了描述SSM框架中单个框架所充当的什么角色，以及开发流程注意点，建议的开发流程
+
+1.持久层：DAO层（mapper层）（属于mybatis模块）
+DAO层：主要负责与数据库进行交互设计，用来处理数据的持久化工作。
+
+DAO层的设计首先是设计DAO的接口，也就是项"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Mr.Zhao"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://Lotharing.github.io/Lotharing.github.iohttp://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://Lotharing.github.io/Lotharing.github.iohttp://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>SSM集成框架的分层关系说明 - Mr.Zhao</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Lotharing.github.io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+    <link rel="icon" href="[object Object]"/>
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Lotharing.github.io/">Lothar</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Lotharing.github.io/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Lotharing/Lotharing.github.io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536596712692&di=3f67d5f797512f45580de62449c8169e&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2018-03-19%2F5aaf98f74c353.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>SSM集成框架的分层关系说明</h1>
+                    
+                    <h2 class="post-subheading">
+                        对后台开发中使用Spring+SpringMVC+Mybatis时候，单个框架在项目中充当的角色以及对开发流程的建议
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by LuTong.Zhao on
+                        
+                        
+                            2018-09-10
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Lotharing.github.io/tags/《SSM》/">#《SSM》</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/Lotharing.github.io/categories/项目中集成框架充当的角色/">项目中集成框架充当的角色</a>
+
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>前言：本文没有什么技术性问题，就是为了描述SSM框架中单个框架所充当的什么角色，以及开发流程注意点，建议的开发流程</p>
+<hr>
+<h4 id="1-持久层：DAO层（mapper层）（属于mybatis模块）"><a href="#1-持久层：DAO层（mapper层）（属于mybatis模块）" class="headerlink" title="1.持久层：DAO层（mapper层）（属于mybatis模块）"></a>1.持久层：DAO层（mapper层）（属于mybatis模块）</h4><ul>
+<li><p>DAO层：主要负责与数据库进行交互设计，用来处理数据的持久化工作。</p>
+</li>
+<li><p>DAO层的设计首先是设计DAO的接口，也就是项目中你看到的Dao包。</p>
+</li>
+<li><p>然后在Spring的xml配置文件中定义此接口的实现类，就可在其他模块中调用此接口来进行数据业务的处理，而不用关心接口的具体实现类是哪个类，这里往往用到的就是反射机制，DAO层的jdbc.properties数据源配置，以及有 关数据库连接的参数都在Spring的配置文件中进行配置。</p>
+</li>
+<li><p>ps:（有的项目里面Dao层，写成mapper，当成一个意思理解。）</p>
+</li>
+</ul>
+<h4 id="2-业务层：Service层（属于spring模块）"><a href="#2-业务层：Service层（属于spring模块）" class="headerlink" title="2.业务层：Service层（属于spring模块）"></a>2.业务层：Service层（属于spring模块）</h4><ul>
+<li><p>Service层：主要负责业务模块的逻辑应用设计。也就是项目中你看到的Service包。</p>
+</li>
+<li><p>Service层的设计首先是设计接口，再设计其实现的类。也就是项目中你看到的service+impl包。</p>
+</li>
+<li><p>接着再在Spring的xml配置文件中配置其实现的关联。这样我们就可以在应用中调用Service接口来进行业务处理。</p>
+</li>
+<li><p>最后通过调用DAO层已定义的接口，去实现Service具体的实现类。</p>
+</li>
+<li><p>ps:(Service层的业务实现，具体要调用到已定义的DAO层的接口.)</p>
+</li>
+</ul>
+<h4 id="3-控制层-表现层：Controller层（Handler层）-（属于springMVC模块）"><a href="#3-控制层-表现层：Controller层（Handler层）-（属于springMVC模块）" class="headerlink" title="3.控制层/表现层：Controller层（Handler层） （属于springMVC模块）"></a>3.控制层/表现层：Controller层（Handler层） （属于springMVC模块）</h4><ul>
+<li><p>Controller层：主要负责具体的业务模块流程控制，也就是你看到的controller包。</p>
+</li>
+<li><p>Controller层通过要调用Service层的接口来控制业务流程，控制的配置也同样是在Spring的xml配置文件里面，针对具体的业务流程，会有不同的控制器。</p>
+</li>
+</ul>
+<h4 id="4-View层-（属于springMVC模块）"><a href="#4-View层-（属于springMVC模块）" class="headerlink" title="4.View层 （属于springMVC模块）"></a>4.View层 （属于springMVC模块）</h4><ul>
+<li><p>负责前台jsp页面的展示，此层需要与Controller层结合起来开发。</p>
+</li>
+<li><p>Jsp发送请求，controller接收请求，处理，返回，jsp回显数据。</p>
+</li>
+</ul>
+<h4 id="5-各层的关系"><a href="#5-各层的关系" class="headerlink" title="5.各层的关系"></a>5.各层的关系</h4><ul>
+<li><p>DAO层，Service层这两个层次可以单独开发，互相的耦合度很低</p>
+</li>
+<li><p>Controller，View层耦合度高，因而要结合在一起开发。也可以听当做两层来开发，这样，在层与层之前我们只需要知道接口的定义，调用接口即可完成所需要的逻辑单元应用，项目会显得清晰简单</p>
+</li>
+<li><p>值得注意的是，Service逻辑层设计：<br>Service层是建立在DAO层之上的，在Controller层之下。因而Service层应该既调用DAO层的接口，又提供接口给Controller层的类来进行调用，它处于一个中间层的位置。每个模型都有一个Service接口，每个接口分别封装各自的业务处理方法。</p>
+</li>
+</ul>
+<h4 id="6-SSM框架实现一个web程序主要使用到如下三个技术："><a href="#6-SSM框架实现一个web程序主要使用到如下三个技术：" class="headerlink" title="6.SSM框架实现一个web程序主要使用到如下三个技术："></a>6.SSM框架实现一个web程序主要使用到如下三个技术：</h4><ul>
+<li><p>Spring：用到注解和自动装配，就是Spring的两个精髓IOC(反向控制)和 AOP(面向切面编程)。</p>
+</li>
+<li><p>SpringMVC：用到了MVC模型，将流程控制代码放到Controller层处理，将业务逻辑代码放到Service层处理。</p>
+</li>
+<li><p>Mybatis：用到了与数据库打交道的层面，dao（mapper）层，放在所有的逻辑之后，处理与数据库的CRUD相关的操作。</p>
+</li>
+</ul>
+<h4 id="7-建议开发流程"><a href="#7-建议开发流程" class="headerlink" title="7.建议开发流程"></a>7.建议开发流程</h4><ul>
+<li><p>先写实体类entity，定义对象的属性，（可以参照数据库中表的字段来设置，数据库的设计应该在所有编码开始之前）。</p>
+</li>
+<li><p>写Mapper.xml（Mybatis），其中定义你的功能，对应要对数据库进行的那些操作，比如 insert、selectAll、selectByKey、delete、update等。</p>
+</li>
+<li><p>写Mapper.java/Dao.java，将Mapper.xml中的操作按照id映射成Java函数。实际上就是Dao接口，二者选一即可。</p>
+</li>
+<li><p>写Service.java，为控制层提供服务，接受控制层的参数，完成相应的功能，并返回给控制层。</p>
+</li>
+<li><p>写Controller.java，连接页面请求和服务层，获取页面请求的参数，通过自动装配，映射不同的URL到相应的处理函数，并获取参数，对参数进行处理，之后传给服务层。</p>
+</li>
+<li><p>写JSP页面调用，请求哪些参数，需要获取什么数据。</p>
+</li>
+</ul>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Lotharing/Lotharing.github.io" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2018 Lothar<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+                <p class="copyright text-muted">2018总访问量<span id="busuanzi_value_site_pv"></span>次</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

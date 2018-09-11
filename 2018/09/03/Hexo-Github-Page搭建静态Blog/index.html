@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="这篇文章记录搭建过程中的难点和问题的解决，也让我熟悉了GIt的使用，以前基本都是用GIthub客户端对仓库上传修改现在会使用了Git根据SSH秘钥通过命令来上传修改，也让我在这方面有一定的提升
+
+一丶准备工作1.下载note.js并安装2.下载Git工具并安装3.利用Git安装Hexo本地文件夹he"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Lothar"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Git+Hexo+Github-Page搭建静态博客"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="这篇文章记录搭建过程中的难点和问题的解决，也让我熟悉了GIt的使用，以前基本都是用GIthub客户端对仓库上传修改现在会使用了Git根据SSH秘钥通过命令来上传修改，也让我在这方面有一定的提升
+
+一丶准备工作1.下载note.js并安装2.下载Git工具并安装3.利用Git安装Hexo本地文件夹he"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Mr.Zhao"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://Lotharing.github.io/Lotharing.github.iohttp://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://Lotharing.github.io/Lotharing.github.iohttp://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>Git+Hexo+Github-Page搭建静态博客 - Mr.Zhao</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Lotharing.github.io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+    <link rel="icon" href="[object Object]"/>
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Lotharing.github.io/">Lothar</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Lotharing.github.io/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Lotharing/Lotharing.github.io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Git+Hexo+Github-Page搭建静态博客</h1>
+                    
+                    <h2 class="post-subheading">
+                        教程记录了使用Hexo+Github-Page+Git工具搭建个人博客的过程
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by LuTong.Zhao on
+                        
+                        
+                            2018-09-03
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Lotharing.github.io/tags/《教程》/">#《教程》</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/Lotharing.github.io/categories/搭建个人服务教程/">搭建个人服务教程</a>
+
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>这篇文章记录搭建过程中的难点和问题的解决，也让我熟悉了GIt的使用，以前基本都是用GIthub客户端对仓库上传修改<br>现在会使用了Git根据SSH秘钥通过命令来上传修改，也让我在这方面有一定的提升</p>
+<hr>
+<h2 id="一丶准备工作"><a href="#一丶准备工作" class="headerlink" title="一丶准备工作"></a>一丶准备工作</h2><h3 id="1-下载note-js并安装"><a href="#1-下载note-js并安装" class="headerlink" title="1.下载note.js并安装"></a>1.下载<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">note.js</a>并安装</h3><h3 id="2-下载Git工具并安装"><a href="#2-下载Git工具并安装" class="headerlink" title="2.下载Git工具并安装"></a>2.下载<a href="https://git-scm.com/download/" target="_blank" rel="noopener">Git</a>工具并安装</h3><h3 id="3-利用Git安装Hexo"><a href="#3-利用Git安装Hexo" class="headerlink" title="3.利用Git安装Hexo"></a>3.利用Git安装Hexo</h3><h4 id="本地文件夹hexo"><a href="#本地文件夹hexo" class="headerlink" title="本地文件夹hexo"></a>本地文件夹hexo</h4><blockquote>
+<p>$ cd d:/hexo</p>
+</blockquote>
+<h4 id="待安装hexo"><a href="#待安装hexo" class="headerlink" title="待安装hexo"></a>待安装hexo</h4><blockquote>
+<p>$ npm install hexo-cli -g</p>
+</blockquote>
+<h4 id="建立blog文件夹存放静态博客资源"><a href="#建立blog文件夹存放静态博客资源" class="headerlink" title="建立blog文件夹存放静态博客资源"></a>建立blog文件夹存放静态博客资源</h4><blockquote>
+<p>$ hexo init blog</p>
+</blockquote>
+<h4 id="进入blog文件夹"><a href="#进入blog文件夹" class="headerlink" title="进入blog文件夹"></a>进入blog文件夹</h4><blockquote>
+<p>$ cd blog</p>
+</blockquote>
+<h4 id="安装命令"><a href="#安装命令" class="headerlink" title="安装命令"></a>安装命令</h4><blockquote>
+<p>$ npm install</p>
+</blockquote>
+<h4 id="生成本地Public文件，在Blog文件夹目录下"><a href="#生成本地Public文件，在Blog文件夹目录下" class="headerlink" title="生成本地Public文件，在Blog文件夹目录下"></a>生成本地Public文件，在Blog文件夹目录下</h4><blockquote>
+<p>$ hexo g<br>$ hexo generate</p>
+</blockquote>
+<h4 id="运行本地服务器"><a href="#运行本地服务器" class="headerlink" title="运行本地服务器"></a>运行本地服务器</h4><blockquote>
+<p>$ hexo s<br>$ hexo server</p>
+</blockquote>
+<h3 id="4-在Git中使用hexo-g-命令自动根据主题生成Public文件，该文件就是部署前的文件"><a href="#4-在Git中使用hexo-g-命令自动根据主题生成Public文件，该文件就是部署前的文件" class="headerlink" title="4.在Git中使用hexo g 命令自动根据主题生成Public文件，该文件就是部署前的文件"></a>4.在Git中使用hexo g 命令自动根据主题生成Public文件，该文件就是部署前的文件</h3><h3 id="5-在Git中使用hexo-s-命令可以用本机的4000端口预览，出现banner图中一个hexo主题，则准备工作已经完成"><a href="#5-在Git中使用hexo-s-命令可以用本机的4000端口预览，出现banner图中一个hexo主题，则准备工作已经完成" class="headerlink" title="5.在Git中使用hexo s 命令可以用本机的4000端口预览，出现banner图中一个hexo主题，则准备工作已经完成"></a>5.在Git中使用hexo s 命令可以用本机的4000端口预览，出现banner图中一个hexo主题，则准备工作已经完成</h3><hr>
+<h2 id="二丶主题配置"><a href="#二丶主题配置" class="headerlink" title="二丶主题配置"></a>二丶主题配置</h2><h3 id="1-Hexo官网提供很多主题，挑选完成后进入该主题作者的Github仓库"><a href="#1-Hexo官网提供很多主题，挑选完成后进入该主题作者的Github仓库" class="headerlink" title="1.Hexo官网提供很多主题，挑选完成后进入该主题作者的Github仓库"></a>1.Hexo官网提供很多主题，挑选完成后进入该主题作者的Github仓库</h3><h3 id="2-Dowload该主题，修改文件夹名称，copy在hexo-Blog-themes中"><a href="#2-Dowload该主题，修改文件夹名称，copy在hexo-Blog-themes中" class="headerlink" title="2.Dowload该主题，修改文件夹名称，copy在hexo/Blog/themes中"></a>2.Dowload该主题，修改文件夹名称，copy在hexo/Blog/themes中</h3><h3 id="3-找到hexo目录下的-config-yml配置文件，找到theme并修改属性值为你自定义的主题文件夹名称"><a href="#3-找到hexo目录下的-config-yml配置文件，找到theme并修改属性值为你自定义的主题文件夹名称" class="headerlink" title="3.找到hexo目录下的_config.yml配置文件，找到theme并修改属性值为你自定义的主题文件夹名称"></a>3.找到hexo目录下的_config.yml配置文件，找到theme并修改属性值为你自定义的主题文件夹名称</h3><h3 id="4-命令操作"><a href="#4-命令操作" class="headerlink" title="4.命令操作"></a>4.命令操作</h3><h4 id="清除原生成的Public文件"><a href="#清除原生成的Public文件" class="headerlink" title="清除原生成的Public文件"></a>清除原生成的Public文件</h4><blockquote>
+<p>hexo clean</p>
+</blockquote>
+<h4 id="生成修改主题后的Public文件"><a href="#生成修改主题后的Public文件" class="headerlink" title="生成修改主题后的Public文件"></a>生成修改主题后的Public文件</h4><blockquote>
+<p>hexo g</p>
+</blockquote>
+<h4 id="部署在本地端口4000上"><a href="#部署在本地端口4000上" class="headerlink" title="部署在本地端口4000上"></a>部署在本地端口4000上</h4><blockquote>
+<p>hexo s</p>
+</blockquote>
+<h3 id="5-关于主题修改"><a href="#5-关于主题修改" class="headerlink" title="5.关于主题修改"></a>5.关于主题修改</h3><h4 id="5-1-根目录下的-config-yml是配置标题，副标题，作者，以及部署在Github上的Url连接，和SSH仓库传输协议秘钥等（密钥配置随后中说明）"><a href="#5-1-根目录下的-config-yml是配置标题，副标题，作者，以及部署在Github上的Url连接，和SSH仓库传输协议秘钥等（密钥配置随后中说明）" class="headerlink" title="5.1 根目录下的_config.yml是配置标题，副标题，作者，以及部署在Github上的Url连接，和SSH仓库传输协议秘钥等（密钥配置随后中说明）"></a>5.1 根目录下的_config.yml是配置标题，副标题，作者，以及部署在Github上的Url连接，和SSH仓库传输协议秘钥等（密钥配置随后中说明）</h4><h4 id="5-2-themes下的-config-yml是主题配置包括导导航栏，Github连接，FaceBook等个人社交连接，主题Banner图，以及Tags标签和分类等"><a href="#5-2-themes下的-config-yml是主题配置包括导导航栏，Github连接，FaceBook等个人社交连接，主题Banner图，以及Tags标签和分类等" class="headerlink" title="5.2 themes下的_config.yml是主题配置包括导导航栏，Github连接，FaceBook等个人社交连接，主题Banner图，以及Tags标签和分类等"></a>5.2 themes下的_config.yml是主题配置包括导导航栏，Github连接，FaceBook等个人社交连接，主题Banner图，以及Tags标签和分类等</h4><h4 id="5-3-source下的md文件就是笔者当下写的文章，根据MarkDown规范去写就行，hexo可以根据md文件自动生成可视化网页，自行查看MarkDown书写规范"><a href="#5-3-source下的md文件就是笔者当下写的文章，根据MarkDown规范去写就行，hexo可以根据md文件自动生成可视化网页，自行查看MarkDown书写规范" class="headerlink" title="5.3 source下的md文件就是笔者当下写的文章，根据MarkDown规范去写就行，hexo可以根据md文件自动生成可视化网页，自行查看MarkDown书写规范"></a>5.3 source下的md文件就是笔者当下写的文章，根据MarkDown规范去写就行，hexo可以根据md文件自动生成可视化网页，自行查看MarkDown书写规范</h4><h5 id="5-4-1-新建Md文件输入-hexo-new-ticname-就会在-source下的-post中出现md文件，按照MarkDown规范编辑即可"><a href="#5-4-1-新建Md文件输入-hexo-new-ticname-就会在-source下的-post中出现md文件，按照MarkDown规范编辑即可" class="headerlink" title="5.4.1 新建Md文件输入 hexo new ticname 就会在 source下的_post中出现md文件，按照MarkDown规范编辑即可"></a>5.4.1 新建Md文件输入 hexo new ticname 就会在 source下的_post中出现md文件，按照MarkDown规范编辑即可</h5><h4 id="5-4-关于信息配置"><a href="#5-4-关于信息配置" class="headerlink" title="5.4 关于信息配置"></a>5.4 关于信息配置</h4><p>菜单在主题中配置_config.yml</p>
+<pre><code>
+menu:
+  Home: /
+  Archives: /archives
+  Github:
+    url: https://github.com/klugjo/hexo-theme-clean-blog
+    icon: github
+</code></pre>
+
+<p>左上标签</p>
+<pre><code>
+    menu_title: Configurable Title
+</code></pre>
+
+<p>主页封面图片</p>
+<pre><code>
+    index_cover: /img/home-bg.jpg
+</code></pre>
+
+<p>默认帖子标题</p>
+<pre><code>
+    default_post_title: Untitled
+</code></pre>
+
+<p>社交帐户</p>
+<pre><code>
+    twitter_url:
+    facebook_url:
+    github_url: https://github.com/klugjo/hexo-theme-clean-blog
+    linkedin_url:
+    mailto:
+</code></pre>
+
+<p>作者</p>
+<pre><code>
+    author: Klug Jo
+</code></pre>
+
+
+<p>博客文章信息</p>
+<pre><code>
+    title: Excerpts
+    date: 2013-12-25 00:23:23
+    tags: ["Excertps"]
+    cover: /assets/contact-bg.jpg
+    ---
+</code></pre>
+
+<p>帖子的摘录</p>
+<pre><code>
+    title: Excerpts
+date: 2013-12-25 00:23:23
+tags: ["Excertps"]
+subtitle: Standard Excerpts are not supported in Clean Blog but you can use subtitles in the front matter to display text in the index.
+---
+</code></pre>
+
+<h4 id="5-5-关于Tags（标签）和Gategores（分类）的配置"><a href="#5-5-关于Tags（标签）和Gategores（分类）的配置" class="headerlink" title="5.5 关于Tags（标签）和Gategores（分类）的配置"></a>5.5 关于Tags（标签）和Gategores（分类）的配置</h4><h5 id="创建一个Tag"><a href="#创建一个Tag" class="headerlink" title="创建一个Tag"></a>创建一个Tag</h5><blockquote>
+<p>hexo new page “tags”</p>
+</blockquote>
+<h5 id="编辑新创建的页面并将页面MD文件类型设置tags为前面的内容。"><a href="#编辑新创建的页面并将页面MD文件类型设置tags为前面的内容。" class="headerlink" title="编辑新创建的页面并将页面MD文件类型设置tags为前面的内容。"></a>编辑新创建的页面并将页面MD文件类型设置tags为前面的内容。</h5><p>title: All tags<br>type: “tags”</p>
+<h5 id="添加tags到主题菜单中-config-yml"><a href="#添加tags到主题菜单中-config-yml" class="headerlink" title="添加tags到主题菜单中_config.yml"></a>添加tags到主题菜单中_config.yml</h5><p>menu:<br>  Home: /<br>  Archives: /archives<br>  Tags: /tags</p>
+<h5 id="创建一个名为的页面-categories"><a href="#创建一个名为的页面-categories" class="headerlink" title="创建一个名为的页面 categories"></a>创建一个名为的页面 categories</h5><blockquote>
+<p>$ hexo new page “categories”</p>
+</blockquote>
+<h5 id="编辑新创建的页面并将页面MD文件类型设置categories为前面的内容。"><a href="#编辑新创建的页面并将页面MD文件类型设置categories为前面的内容。" class="headerlink" title="编辑新创建的页面并将页面MD文件类型设置categories为前面的内容。"></a>编辑新创建的页面并将页面MD文件类型设置categories为前面的内容。</h5><p>title: All tags<br>type: “categories”</p>
+<h5 id="添加Categories到主题菜单中-config-yml："><a href="#添加Categories到主题菜单中-config-yml：" class="headerlink" title="添加Categories到主题菜单中_config.yml："></a>添加Categories到主题菜单中_config.yml：</h5><p>menu:<br>  Home: /<br>  Archives: /archives<br>  Categories: /categories</p>
+<hr>
+<h2 id="三丶SSH秘钥"><a href="#三丶SSH秘钥" class="headerlink" title="三丶SSH秘钥"></a>三丶SSH秘钥</h2><h3 id="1-Git中输入命令-一直Enter键"><a href="#1-Git中输入命令-一直Enter键" class="headerlink" title="1.Git中输入命令(一直Enter键)"></a>1.Git中输入命令(一直Enter键)</h3><blockquote>
+<p>$ ssh-keygen -t rsa -C “github邮箱</p>
+</blockquote>
+<h3 id="2-本地用户User生成秘钥文件-pub扩展名的公共秘钥"><a href="#2-本地用户User生成秘钥文件-pub扩展名的公共秘钥" class="headerlink" title="2.本地用户User生成秘钥文件 .pub扩展名的公共秘钥"></a>2.本地用户User生成秘钥文件 .pub扩展名的公共秘钥</h3><h3 id="3-在Github账户中Settings-gt-SSH-and-GPG-keys-gt-New-SSH-Key-gt-pub的内容粘贴进去保存"><a href="#3-在Github账户中Settings-gt-SSH-and-GPG-keys-gt-New-SSH-Key-gt-pub的内容粘贴进去保存" class="headerlink" title="3.在Github账户中Settings -&gt; SSH and GPG keys -&gt; New SSH Key -&gt;.pub的内容粘贴进去保存"></a>3.在Github账户中Settings -&gt; SSH and GPG keys -&gt; New SSH Key -&gt;.pub的内容粘贴进去保存</h3><h3 id="4-在-config-yml的最下方找到depoly并修改"><a href="#4-在-config-yml的最下方找到depoly并修改" class="headerlink" title="4.在_config.yml的最下方找到depoly并修改"></a>4.在_config.yml的最下方找到depoly并修改</h3><p>deploy:<br>  type: git<br>      repository: <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:YourGithubAccountName/CangkuName<br>      例如：repository: <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:Lotharing/Lotharing.github.io.git<br>      branch: maste</p>
+<h3 id="5-在-config-yml中找到Url配置"><a href="#5-在-config-yml中找到Url配置" class="headerlink" title="5.在_config.yml中找到Url配置"></a>5.在_config.yml中找到Url配置</h3><p>url: <a href="http://Lotharing.github.io/Lotharing.github.io">http://Lotharing.github.io/Lotharing.github.io</a><br>root: /Lotharing.github.io<br>permalink: :year/:month/:day/:title/<br>permalink_defaults:</p>
+<h3 id="6-测试是否可以部署在Github"><a href="#6-测试是否可以部署在Github" class="headerlink" title="6.测试是否可以部署在Github"></a>6.测试是否可以部署在Github</h3><blockquote>
+<p>$ hexo d</p>
+</blockquote>
+<h4 id="此处如果GIt报错没关系，安装个插件"><a href="#此处如果GIt报错没关系，安装个插件" class="headerlink" title="此处如果GIt报错没关系，安装个插件"></a>此处如果GIt报错没关系，安装个插件</h4><blockquote>
+<p>$ npm install hexo-deployer-git –save</p>
+</blockquote>
+<h4 id="执行hexo-d-，出现提交信息就成功了，可以在Github仓库页Settings-找到访问连接查看"><a href="#执行hexo-d-，出现提交信息就成功了，可以在Github仓库页Settings-找到访问连接查看" class="headerlink" title="执行hexo d ，出现提交信息就成功了，可以在Github仓库页Settings 找到访问连接查看"></a>执行hexo d ，出现提交信息就成功了，可以在Github仓库页Settings 找到访问连接查看</h4><h4 id="访问连接和配置的Url有关系-url填写你创建的仓库名即xx-github-io-xx-github-io注意，我不知道为什么要这么写，但是之前测试中没有写后面重复的那一遍不显示主题"><a href="#访问连接和配置的Url有关系-url填写你创建的仓库名即xx-github-io-xx-github-io注意，我不知道为什么要这么写，但是之前测试中没有写后面重复的那一遍不显示主题" class="headerlink" title="访问连接和配置的Url有关系.url填写你创建的仓库名即xx.github.io/xx.github.io注意，我不知道为什么要这么写，但是之前测试中没有写后面重复的那一遍不显示主题"></a>访问连接和配置的Url有关系.url填写你创建的仓库名即xx.github.io/xx.github.io注意，我不知道为什么要这么写，但是之前测试中没有写后面重复的那一遍不显示主题</h4><h4 id="如果你也出现仓库网址为aa-github-io-xx-github-io的话url应填写aa-github-io-xx-github-io-xx-github-io"><a href="#如果你也出现仓库网址为aa-github-io-xx-github-io的话url应填写aa-github-io-xx-github-io-xx-github-io" class="headerlink" title="如果你也出现仓库网址为aa.github.io/xx.github.io的话url应填写aa.github.io/xx.github.io/xx.github.io"></a>如果你也出现仓库网址为aa.github.io/xx.github.io的话url应填写aa.github.io/xx.github.io/xx.github.io</h4><hr>
+<h4 id="由于本人搭建过程中也是相当坎坷-故者有问题可发送邮件，我会及时回复"><a href="#由于本人搭建过程中也是相当坎坷-故者有问题可发送邮件，我会及时回复" class="headerlink" title="由于本人搭建过程中也是相当坎坷,故者有问题可发送邮件，我会及时回复"></a>由于本人搭建过程中也是相当坎坷,故者有问题可发送邮件，我会及时回复</h4><h4 id="邮箱地址：-x6e-x75-108-x6c-x70-x6f-x69-x6e-x74-64-49-x36-x33-46-99-111-x6d"><a href="#邮箱地址：-x6e-x75-108-x6c-x70-x6f-x69-x6e-x74-64-49-x36-x33-46-99-111-x6d" class="headerlink" title="邮箱地址：&#x6e;&#x75;&#108;&#x6c;&#x70;&#x6f;&#x69;&#x6e;&#x74;&#64;&#49;&#x36;&#x33;&#46;&#99;&#111;&#x6d;"></a>邮箱地址：<a href="mailto:&#x6e;&#x75;&#108;&#x6c;&#x70;&#x6f;&#x69;&#x6e;&#x74;&#64;&#49;&#x36;&#x33;&#46;&#99;&#111;&#x6d;" target="_blank" rel="noopener">&#x6e;&#x75;&#108;&#x6c;&#x70;&#x6f;&#x69;&#x6e;&#x74;&#64;&#49;&#x36;&#x33;&#46;&#99;&#111;&#x6d;</a></h4>
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Lotharing/Lotharing.github.io" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2018 Lothar<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+                <p class="copyright text-muted">2018总访问量<span id="busuanzi_value_site_pv"></span>次</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

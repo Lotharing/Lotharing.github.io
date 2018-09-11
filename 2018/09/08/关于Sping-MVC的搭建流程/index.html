@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="前言：SpingMVC也算是当今比较流行的框架了，它在后台开发中属于view地位，类似于之前说的Struts，但我感觉springmvc要好用，注解式开发少了大部分的配置，也让整个程序看着更整洁，springmvc有两种方式实现，一种是配置式开发一种是注解式开发，多用后者，注解式开发较为方便，学习s"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Lothar"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="关于Spring MVC的搭建流程"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="前言：SpingMVC也算是当今比较流行的框架了，它在后台开发中属于view地位，类似于之前说的Struts，但我感觉springmvc要好用，注解式开发少了大部分的配置，也让整个程序看着更整洁，springmvc有两种方式实现，一种是配置式开发一种是注解式开发，多用后者，注解式开发较为方便，学习s"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Mr.Zhao"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://Lotharing.github.io/Lotharing.github.iohttp://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://Lotharing.github.io/Lotharing.github.iohttp://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>关于Spring MVC的搭建流程 - Mr.Zhao</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Lotharing.github.io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+    <link rel="icon" href="[object Object]"/>
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Lotharing.github.io/">Lothar</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Lotharing.github.io/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Lotharing/Lotharing.github.io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536383376246&di=fc0b8023de2fbb6c0dabae9853da60f4&imgtype=0&src=http%3A%2F%2Fimg18.3lian.com%2Fd%2Ffile%2F201709%2F13%2Fabe9992f7678056a86145ba8d6f23f11.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>关于Spring MVC的搭建流程</h1>
+                    
+                    <h2 class="post-subheading">
+                        对后台开发中使用SpringMVC为基础架构的设计模式搭建流程以及对注解的描述
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by LuTong.Zhao on
+                        
+                        
+                            2018-09-08
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Lotharing.github.io/tags/《SpringMVC》/">#《SpringMVC》</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/Lotharing.github.io/categories/后台开发框架-Spring系列/">后台开发框架-Spring系列</a>
+
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>前言：SpingMVC也算是当今比较流行的框架了，它在后台开发中属于view地位，类似于之前说的Struts，但我感觉springmvc要好用，注解式开发少了大部分的配置，也让整个程序看着更整洁，springmvc有两种方式实现，一种是配置式开发一种是注解式开发，多用后者，注解式开发较为方便，学习springmvc首先要了解DIspatcherServlet中央调度器，然后知道处理器映射器和处理器适配器，处理器就是自己写的Controller，还有就是视图解析器和View，在架构的过程中，springmvc处于表示层，业务层service手写，dao层可以用当前较流行的MyBatis或者Hibernate都可以，原生的jdbc也是可以操作的，下面就来看springmvc的优势-本文主要说明注解式开发。</p>
+<hr>
+<h4 id="SpringMVC的执行流程"><a href="#SpringMVC的执行流程" class="headerlink" title="SpringMVC的执行流程"></a>SpringMVC的执行流程</h4><ol>
+<li><p>浏览器发出请求给DispatcherServlet</p>
+</li>
+<li><p>DispatcherServlet请求处理器映射器HandleMapping</p>
+</li>
+<li><p>返回DispatcherServlet处理器执行链</p>
+</li>
+<li><p>DispatcherServlet找到处理器适配器</p>
+</li>
+<li><p>处理器适配器找到对应的Controller并执行，返回一个ModelAndView给DispatcherServlet</p>
+</li>
+<li><p>DispatcherServlet找到视图解析器给解析视图</p>
+</li>
+<li><p>调用执行View返回给浏览器</p>
+</li>
+</ol>
+<p><br></p>
+<h4 id="web-xml配置文件"><a href="#web-xml配置文件" class="headerlink" title="web.xml配置文件"></a>web.xml配置文件</h4><ul>
+<li><p>配置springmvc的DispatcherServlet，ContextConfigLocation，以及路径：Web-inf或者src下都可以，一般写src下</p>
+</li>
+<li><p>配置spingmvc的拦截请求功能，servlet-mapping，*.spring 代表拦截所有后缀为spring的请求</p>
+</li>
+</ul>
+<p><br></p>
+<h4 id="springmvc配置文件"><a href="#springmvc配置文件" class="headerlink" title="springmvc配置文件"></a>springmvc配置文件</h4><ul>
+<li><p>配置context:component-scan base-package的属性为需要扫描的包的路径，因为自动加载，用注解</p>
+</li>
+<li><p>项目开发中关于service，dao的注入也是用这个扫面器，但注解不一样</p>
+</li>
+</ul>
+<p><br></p>
+<h4 id="Controller编写"><a href="#Controller编写" class="headerlink" title="Controller编写"></a>Controller编写</h4><ul>
+<li><p>Controller类名上边需要增加注解@Controller,指定这个是Controller类，spring容器自动加载</p>
+</li>
+<li><p>类方法上方需要增加@RequestMapping注解，参数是请求名称，根据前台的请求，如果与该请求一致则执行该方法</p>
+</li>
+<li><p>方法中可以用@RequestParam注解引用前台传递的参数，前台form中的name需要和参数名称一致</p>
+</li>
+<li><p>return 返回值可以直接写需要调转的页面路径，也可以用视图解析器拼装路径的方式更美观</p>
+</li>
+<li><p>其中可以引入Service层来进行项目需求的开发</p>
+</li>
+</ul>
+<p><br></p>
+<h4 id="常用的注解"><a href="#常用的注解" class="headerlink" title="常用的注解"></a>常用的注解</h4><hr>
+<ol>
+<li>@Controller注解</li>
+</ol>
+<ul>
+<li><p>@Controller 用于标记在一个类上，使用它标记的类就是一个SpringMVC Controller 对象。分发处理器将会扫描使用了该注解的类的方法，并检测该方法是否使用了@RequestMapping 注解。@Controller 只是定义了一个控制器类，而使用@RequestMapping 注解的方法才是真正处理请求的处理器。</p>
+</li>
+<li><p>@Controller 标记在一个类上还不能真正意义上的说它就是SpringMVC 的一个控制器类，因为这个时候Spring 还不认识它。这个时候就需要我们把这个控制器类交给Spring 来管理。有两种方式可以管理：</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--方式一--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"top.lothar.controller.login类"</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--方式二--扫描整个Controller包&gt;</span></span><br><span class="line"><span class="comment">&lt; context:component-scan base-package = "top.lothar.controller" /&gt; &lt;!-- 路径写到controller的上一层 --&gt;</span></span><br></pre></td></tr></table></figure>
+<p><br></p>
+<ul>
+<li>此外Controller 不会直接依赖于HttpServletRequest 和HttpServletResponse 等HttpServlet 对象，它们可以通过Controller 的方法参数灵活的获取到。为了先对Controller 有一个初步的印象，以下先定义一个简单的</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> top.lothar.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.ui.Model;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestParam;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>	<span class="comment">// @Controller 代表本Java类是controller控制层</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Login</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@RequestParam</span>注解的作用是：根据参数名从URL中取得参数值</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> username</span></span><br><span class="line"><span class="comment">     *            用户名，一定要对应着表单的name才行</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> password</span></span><br><span class="line"><span class="comment">     *            用户密码，也应该对应表单的数据项</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> model</span></span><br><span class="line"><span class="comment">     *            一个域对象，可用于存储数据值</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login.spring"</span>)<span class="comment">// @RequestMapping 注解可以用指定的URL路径访问本控制层(请求执行器)</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">login</span><span class="params">(@RequestParam(<span class="string">"username"</span>)</span> String username , @<span class="title">RequestParam</span><span class="params">(<span class="string">"password"</span>)</span> String password,Model model)</span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (username.equals(<span class="string">"admin"</span>) &amp;&amp; password.equals(<span class="string">"admin"</span>)) &#123;</span><br><span class="line">            model.addAttribute(<span class="string">"username"</span>, username);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"ok.jsp"</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            model.addAttribute(<span class="string">"username"</span>, username);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"no.jsp"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<p>2.@RequestMapping注解</p>
+<ul>
+<li><p>RequestMapping是一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类中的所有响应请求的方法都是以该地址作为父路径。</p>
+</li>
+<li><p>返回值会通过视图解析器解析为实际的物理视图，对于InternalResourceViewResolver 视图解析器，会做如下的解析：通过 prefix + returnVal + suffix 这样的方式得到实际的物理视图，然后做转发操作；</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置视图解析器：如何把 handler 方法返回值解析为实际的物理视图 --&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.web.servlet.view.InternalResourceViewResolver"</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"prefix"</span> <span class="attr">value</span>=<span class="string">"/WEB-INF/views/"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"suffix"</span> <span class="attr">value</span>=<span class="string">".jsp"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><br></p>
+<ul>
+<li>@RequestMapping有六个属性</li>
+</ul>
+<ol>
+<li>value值请求的实际地址</li>
+<li>method表示请求的方式（get post put delete）</li>
+<li>consumes指定处理请求的提交内容类型（Content-Type），例如application/json, text/html</li>
+<li>produces指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回</li>
+<li>params指定request中必须包含某些参数值是，才让该方法处理</li>
+<li>headers： 指定request中必须包含某些指定的header值，才能让该方法处理请求</li>
+</ol>
+<p><br></p>
+<ul>
+<li>@RequestMapping的四种用法</li>
+</ul>
+<ol>
+<li>@RequestMapping(“/helloword/?/aa”) 的 Ant 路径,匹配符：</li>
+</ol>
+<ul>
+<li>（?：匹配文件名的一个字符）</li>
+<li>（*：匹配文件名的所有字符）</li>
+<li>（**：匹配多层路径）</li>
+</ul>
+<ol start="2">
+<li><p>@RequestMapping(“/testPojo”) POJO类用法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testPojo"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testPojo</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"testPojo:"</span> + user);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@RequestMapping(“/testPojo”) Map用法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testMap"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testMap</span><span class="params">(Map&lt;String, Object&gt; map)</span> </span>&#123;</span><br><span class="line">        map.put(<span class="string">"names"</span>, Arrays.asList(<span class="string">"Tomcat"</span>, <span class="string">"Eclipse"</span>, <span class="string">"JavaEE"</span>));</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@RequestMapping(“/testPojo”) ModelAndView用法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testModelAndView"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">testModelAndView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String viewName = SUCCESS;</span><br><span class="line">        ModelAndView modelAndView = <span class="keyword">new</span> ModelAndView(viewName);</span><br><span class="line">        modelAndView.addObject(<span class="string">"time"</span>, <span class="keyword">new</span> Date());</span><br><span class="line">        <span class="keyword">return</span> modelAndView;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><br></p>
+<hr>
+<ol start="3">
+<li>@Resource和@Autowired注解</li>
+</ol>
+<ul>
+<li><p>@Resource和@Autowired都是做bean的注入时使用，其实@Resource并不是Spring的注解，它的包是javax.annotation.Resource，需要导入，但是Spring支持该注解的注入。</p>
+</li>
+<li><p>共同点：两者都可以写在字段和setter方法上。两者如果都写在字段上，那么就不需要再写setter方法</p>
+</li>
+<li><p>不同点：</p>
+</li>
+</ul>
+<p>&#160;&#160;&#160;(1)@Autowired</p>
+<ul>
+<li>@Autowired为Spring提供的注解，需要导入包org.springframework.beans.factory.annotation.Autowired;只按照byType注入。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span></span>&#123;</span><br><span class="line">    <span class="comment">// 下面两种@Autowired只要使用一种即可</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserDao userDao; <span class="comment">// 用于字段上</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserDao</span><span class="params">(UserDao userDao)</span> </span>&#123; <span class="comment">// 用于属性的方法上</span></span><br><span class="line">        <span class="keyword">this</span>.userDao = userDao;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>@Autowired注解是按照类型（byType）装配依赖对象，默认情况下它要求依赖对象必须存在，如果允许null值，可以设置它的required属性为false。如果我们想使用按照名称（byName）来装配，可以结合@Qualifier注解一起使用。如下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span></span>&#123;</span><br><span class="line">　　<span class="meta">@Autowired</span></span><br><span class="line">　　<span class="meta">@Qualifier</span>(<span class="string">"userDao"</span>)</span><br><span class="line">　　<span class="keyword">private</span> UserDao userDao;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<p>&#160;&#160;&#160;(2)@Resource</p>
+<ul>
+<li>@Resource默认按照ByName自动注入，由J2EE提供，需要导入包javax.annotation.Resource。@Resource有两个重要的属性：name和type，而Spring将@Resource注解的name属性解析为bean的名字，而type属性则解析为bean的类型。所以，如果使用name属性，则使用byName的自动注入策略，而使用type属性时则使用byType自动注入策略。如果既不制定name也不制定type属性，这时将通过反射机制使用byName自动注入策略。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span></span>&#123;</span><br><span class="line">    <span class="comment">// 下面两种@Resource只要使用一种即可</span></span><br><span class="line">    <span class="meta">@Resource</span>(name=<span class="string">"userDao"</span>)</span><br><span class="line">    <span class="keyword">private</span> UserDao userDao; <span class="comment">// 用于字段上</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span>(name=<span class="string">"userDao"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserDao</span><span class="params">(UserDao userDao)</span> </span>&#123; <span class="comment">// 用于属性的setter方法上</span></span><br><span class="line">        <span class="keyword">this</span>.userDao = userDao;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<ul>
+<li>注：最好是将@Resource放在setter方法上，因为这样更符合面向对象的思想，通过set、get去操作属性，而不是直接去操作属性。</li>
+</ul>
+<hr>
+<p>4.　@RequestParam</p>
+<ul>
+<li>@RequestParam用于将请求参数区数据映射到功能处理方法的参数上</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@RequestParam</span>("id") 带参映射</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/testRequestParam"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testRequestParam</span><span class="params">(@RequestParam(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id) </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"testRequestParam  "</span> + id);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<ol start="5">
+<li>@PathVariable</li>
+</ol>
+<ul>
+<li>用于将请求URL中的模板变量映射到功能处理方法的参数上，即取出uri模板中的变量作为参数</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;  </span><br><span class="line">     <span class="meta">@RequestMapping</span>(value=<span class="string">"/user/&#123;userId&#125;/roles/&#123;roleId&#125;"</span>,method = RequestMethod.GET)  </span><br><span class="line">     <span class="function"><span class="keyword">public</span> String <span class="title">getLogin</span><span class="params">(@PathVariable(<span class="string">"userId"</span>)</span> String userId,  </span></span><br><span class="line"><span class="function">         @<span class="title">PathVariable</span><span class="params">(<span class="string">"roleId"</span>)</span> String roleId)</span>&#123;  </span><br><span class="line">         System.out.println(<span class="string">"User Id : "</span> + userId);  </span><br><span class="line">         System.out.println(<span class="string">"Role Id : "</span> + roleId);  </span><br><span class="line">         <span class="keyword">return</span> <span class="string">"hello"</span>;  </span><br><span class="line">     &#125;  </span><br><span class="line">     <span class="meta">@RequestMapping</span>(value=<span class="string">"/product/&#123;productId&#125;"</span>,method = RequestMethod.GET)  </span><br><span class="line">     <span class="function"><span class="keyword">public</span> String <span class="title">getProduct</span><span class="params">(@PathVariable(<span class="string">"productId"</span>)</span> String productId)</span>&#123;  </span><br><span class="line">           System.out.println(<span class="string">"Product Id : "</span> + productId);  </span><br><span class="line">           <span class="keyword">return</span> <span class="string">"hello"</span>;  </span><br><span class="line">     &#125;  </span><br><span class="line">     <span class="meta">@RequestMapping</span>(value=<span class="string">"/javabeat/&#123;regexp1:[a-z-]+&#125;"</span>,  </span><br><span class="line">           method = RequestMethod.GET)  </span><br><span class="line">     <span class="function"><span class="keyword">public</span> String <span class="title">getRegExp</span><span class="params">(@PathVariable(<span class="string">"regexp1"</span>)</span> String regexp1)</span>&#123;  </span><br><span class="line">           System.out.println(<span class="string">"URI Part 1 : "</span> + regexp1);  </span><br><span class="line">           <span class="keyword">return</span> <span class="string">"hello"</span>;  </span><br><span class="line">     &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<ol start="6">
+<li>@CookieValue</li>
+</ol>
+<ul>
+<li><p>作用：用来获取Cookie中的值；</p>
+</li>
+<li><p>参数： value：参数名称   required：是否必须  defaultValue：默认值</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取 Session</span></span><br><span class="line"><span class="comment">     * JSESSIONID=411A032E02A2594698F6E3F4458B9CE4</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/testCookieValue"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testCookieValue</span><span class="params">(@CookieValue(<span class="string">"JSESSIONID"</span>)</span> String sessionId) </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"JSESSIONID = "</span> + sessionId);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<ol start="7">
+<li>@SessionAttributes</li>
+</ol>
+<ul>
+<li><p>@SessionAttributes即将值放到session作用域中，写在class上面</p>
+</li>
+<li><p>@SessionAttributes 除了可以通过属性名指定需要放到会话中的属性外（value 属性值），还可以通过模型属性的对象类型指定哪些模型属性需要放到会话中（types 属性值）</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cqvie.yjq;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.SessionAttributes;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.cqvie.model.User;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SessionAttributes</span>(value = &#123;<span class="string">"user"</span>&#125;, types = &#123;String.class&#125;)</span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/springmvc"</span>)</span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionAttributesTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@SessionAttributes</span></span></span><br><span class="line"><span class="comment">     *         除了可以通过属性名指定需要放到会话中的属性外（value 属性值），</span></span><br><span class="line"><span class="comment">     *         还可以通过模型属性的对象类型指定哪些模型属性需要放到会话中（types 属性值）。</span></span><br><span class="line"><span class="comment">     * 注意： 该注解只能放在类的上面，不能放在方法上面</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/testSessionAttributes"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testSessionAttributes</span><span class="params">(Map&lt;String, Object&gt; map)</span> </span>&#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User(<span class="number">1</span>, <span class="string">"刘邦"</span>, <span class="string">"qwe"</span>, <span class="string">"123"</span>, <span class="string">"辽宁"</span>);</span><br><span class="line">        map.put(<span class="string">"user"</span>, user);</span><br><span class="line">        map.put(<span class="string">"school"</span>, <span class="string">"重庆"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<ol start="8">
+<li>@ModelAttribute</li>
+</ol>
+<ul>
+<li>代表的是：该Controller的所有方法在调用前，先执行此@ModelAttribute方法，可用于注解和方法参数中，可以把这个@ModelAttribute特性，应用在BaseController当中，所有的Controller继承BaseController，即可实现在调用Controller时，先执行@ModelAttribute方法。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cqvie.yjq;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ModelAttribute;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestParam;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.cqvie.model.User;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/springmvc"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ModelAttributeTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SUCCESS = <span class="string">"success"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 1.有 <span class="doctag">@ModelAttribute</span> 标记的方法，会在每个目标方法执行之前被 SpringMVC 调用</span></span><br><span class="line"><span class="comment">     * 2.<span class="doctag">@ModelAttribute</span>注解也可以修饰目标方法POJO类形的入参，其value的属性值有如下作用：</span></span><br><span class="line"><span class="comment">     *     1）SpringMVC会使用value属性值在implicitModel中查找对应的对象，若存在则直接传入到目标方法的入参中</span></span><br><span class="line"><span class="comment">     *     2）SpringMVC会以value为key,POJO类型的对象为value，存入的request中</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> map</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ModelAttribute</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getUser</span><span class="params">(@RequestParam(value = <span class="string">"id"</span>, required = <span class="keyword">false</span>)</span> <span class="keyword">int</span> id,</span></span><br><span class="line"><span class="function">            Map&lt;String, Object&gt; map) </span>&#123;</span><br><span class="line">        <span class="comment">//模拟数据库中获取对象</span></span><br><span class="line">        User user = <span class="keyword">new</span> User(<span class="number">1</span>, <span class="string">"刘邦"</span>, <span class="string">"123"</span>, <span class="string">"023"</span>, <span class="string">"重庆"</span>);</span><br><span class="line">        System.out.println(<span class="string">"从数据库中获取一个对象："</span> + user);</span><br><span class="line">        map.put(<span class="string">"abc"</span>, user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 运行流程：</span></span><br><span class="line"><span class="comment">     *         1.执行<span class="doctag">@ModelAttribute</span>注解修饰的方法，从数据库中取出对象，把对象放入Map中，键为：user；</span></span><br><span class="line"><span class="comment">     *         2.SpringMVC从Map中取出User对象，并把表单的请求参数赋值给该User对象的对应属性；</span></span><br><span class="line"><span class="comment">     *         3.SpringMVC把上述对象传入目标方法的参数。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 注意：在<span class="doctag">@ModelAttribute</span>修饰的方法中，放入到Map时的键需要和目标方法入参类型的第一个字母小写的字符串一致</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> user</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/testModelAttribute"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testModelAttribute</span><span class="params">(@ModelAttribute(<span class="string">"abc"</span>)</span> User user) </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"修改："</span> + user);</span><br><span class="line">        <span class="keyword">return</span> SUCCESS;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<ol start="9">
+<li>@ResponseBody　</li>
+</ol>
+<ul>
+<li><p>作用： 该注解用于将Controller的方法返回的对象，通过适当的HttpMessageConverter转换为指定格式后，写入到Response对象的body数据区。</p>
+</li>
+<li><p>使用时机：返回的数据不是html标签的页面，而是其他某种格式的数据时（如json、xml等）使用</p>
+</li>
+</ul>
+<hr>
+<p>本文基本描述了SpringMVC的执行流程，以及简单的使用，其中对注解方面进行了略微详细的说明，因为注解式SpringMVC开发时候的精髓说在，并且SpringMVC这个角色扩展性很强，可以和各大框架进行结合：spring+SpringMVC+Mybatis,spring+SpringMVc+Hibernate,SpringBoot也是采用注解式，并且更进一步简化了配置文件的书写。</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Lotharing/Lotharing.github.io" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2018 Lothar<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+                <p class="copyright text-muted">2018总访问量<span id="busuanzi_value_site_pv"></span>次</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
