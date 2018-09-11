@@ -13,6 +13,8 @@
     
 
     
+        <meta name="description" content="前言：之前在S2SH中的Struts2在这里变为SpringMVC，等于是把View层换了一个框架，首先struts是过滤器filter，springmvc是基于servlet的前端控制器，Struts2是基于类开发的，传递的参数是通过类的属性传递(属性驱动和模型驱动),所以只能设计成多例proto"/>
+    
 
     <!--Author-->
     
@@ -21,10 +23,12 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Mr.Zhao"/>
+        <meta property="og:title" content="SSH集成框架的分层关系说明"/>
     
 
     <!--Open Graph Description-->
+    
+        <meta property="og:description" content="前言：之前在S2SH中的Struts2在这里变为SpringMVC，等于是把View层换了一个框架，首先struts是过滤器filter，springmvc是基于servlet的前端控制器，Struts2是基于类开发的，传递的参数是通过类的属性传递(属性驱动和模型驱动),所以只能设计成多例proto"/>
     
 
     <!--Open Graph Site Name-->
@@ -32,7 +36,7 @@
 
     <!--Type page-->
     
-        <meta property="og:type" content="website"/>
+        <meta property="og:type" content="article"/>
     
 
     <!--Page Cover-->
@@ -51,7 +55,7 @@
 
     <!-- Title -->
     
-    <title>Archives - Mr.Zhao</title>
+    <title>SSH集成框架的分层关系说明 - Mr.Zhao</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
@@ -155,188 +159,85 @@
 </nav>
 
     <!-- Main Content -->
-    
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
 
-<!-- Page Header -->
-<!-- Set your background image for this header in the theme's configuration: index_cover -->
-<header class="intro-header" style="background-image: url('http://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg')">
+<header class="intro-header" style="background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536681280508&di=41b88b92f7aa338eaafffaabb56611da&imgtype=0&src=http%3A%2F%2Fimg18.3lian.com%2Fd%2Ffile%2F201709%2F14%2Fac8bdbf51791e9436e5bdcc9be56c224.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <h1>Archives</h1>
+                <div class="post-heading">
+                    <h1>SSH集成框架的分层关系说明</h1>
+                    
+                    <h2 class="post-subheading">
+                        对后台开发中使用Spring+SpringMVC+Hibernate作为基础架构的搭建流程
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by LuTong.Zhao on
+                        
+                        
+                            2018-09-11
+                        
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Lotharing.github.io/tags/《SSH》/">#《SSH》</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/Lotharing.github.io/categories/项目中集成框架充当的角色/">项目中集成框架充当的角色</a>
+
+                    
+                </div>
             
-                <div class="post-preview">
-    <a href="/Lotharing.github.io/2018/09/11/SSH集成框架的分层关系说明/">
-        <h1 class="post-title archive">
-            SSH集成框架的分层关系说明
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by LuTong.Zhao on
-        
-        2018-09-11
-    </p>
-</div>
+
+            <!-- Gallery -->
             
-                <div class="post-preview">
-    <a href="/Lotharing.github.io/2018/09/11/Spring-SpringMVC-MyBatis的搭建流程/">
-        <h1 class="post-title archive">
-            SSM集成框架的搭建流程
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by LuTong.Zhao on
-        
-        2018-09-11
-    </p>
-</div>
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>前言：之前在S2SH中的Struts2在这里变为SpringMVC，等于是把View层换了一个框架，首先struts是过滤器filter，springmvc是基于servlet的前端控制器，Struts2是基于类开发的，传递的参数是通过类的属性传递(属性驱动和模型驱动),所以只能设计成多例prototype，SpringMvc是基于类中的方法开发的，也就是一个url对应一个方法，传递参数是传到方法的形参上面，所以既可以是单例模式也可以是多例模式singiton，Struts2采用的是值栈存储请求以及响应数据，OGNL存取数据，SpringMvc采用request来解析请求内容，然后由其内部的getParameter给方法中形参赋值，再把后台处理过的数据通过ModelAndView对象存储，Model存储数据，View存储返回的页面，再把对象通过request传输到页面去。个人感觉springMVC的注解使用起来很方便，并且自带的视图解析器可以直接指定对应的jsp，在struts中需要大量的action配置标签来指定目标jsp，所以选择springmvc也是一个好的选择</p>
+<hr>
+
+
+                
+            </div>
+
+            <!-- Comments -->
             
-                <div class="post-preview">
-    <a href="/Lotharing.github.io/2018/09/10/Sping-SpringMVC-Mybatis的分层关系说明/">
-        <h1 class="post-title archive">
-            SSM集成框架的分层关系说明
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by LuTong.Zhao on
-        
-        2018-09-10
-    </p>
-</div>
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
             
-                <div class="post-preview">
-    <a href="/Lotharing.github.io/2018/09/09/使用Maven的SSM搭建流程/">
-        <h1 class="post-title archive">
-            SpingBoot+Mybtis搭建流程
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by LuTong.Zhao on
-        
-        2018-09-09
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/Lotharing.github.io/2018/09/08/The-University-four-years/">
-        <h1 class="post-title archive">
-            The University Four Years
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by LuTong.Zhao on
-        
-        2018-09-08
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/Lotharing.github.io/2018/09/08/关于Sping-MVC的搭建流程/">
-        <h1 class="post-title archive">
-            关于Spring MVC的搭建流程
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by LuTong.Zhao on
-        
-        2018-09-08
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/Lotharing.github.io/2018/09/07/关于S2SH轻量级框架的搭建/">
-        <h1 class="post-title archive">
-            关于S2SH轻量级框架的搭建
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by LuTong.Zhao on
-        
-        2018-09-07
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/Lotharing.github.io/2018/09/06/Java-线程的分析和使用/">
-        <h1 class="post-title archive">
-            Java 线程的分析和使用
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by LuTong.Zhao on
-        
-        2018-09-06
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/Lotharing.github.io/2018/09/05/Java-IO流的分析与使用/">
-        <h1 class="post-title archive">
-            Java IO流的分析与使用
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by LuTong.Zhao on
-        
-        2018-09-05
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/Lotharing.github.io/2018/09/04/Java集合的底层分析/">
-        <h1 class="post-title archive">
-            Java 集合的底层分析
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by LuTong.Zhao on
-        
-        2018-09-04
-    </p>
-</div>
-            
-            <div class="archive-before-pagination"></div>
-            <ul class="pager">
-    
-    
-        <li class="next"><a href="/Lotharing.github.io/archives/page/2/">Older Posts  &rarr;</a></li>
-    
-</ul>
         </div>
     </div>
-</div>
-
+</article>
 
     <!-- Footer -->
     <hr />
