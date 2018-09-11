@@ -13,7 +13,12 @@
     
 
     
-        <meta name="description" content="前言：之前在S2SH中的Struts2在这里变为SpringMVC，等于是把View层换了一个框架，首先struts是过滤器filter，springmvc是基于servlet的前端控制器，Struts2是基于类开发的，传递的参数是通过类的属性传递(属性驱动和模型驱动),所以只能设计成多例proto"/>
+        <meta name="description" content="前言：本文没有什么技术性问题，就是为了描述SSH框架中单个框架所充当的什么角色，以及开发流程注意点，建议的开发流程
+
+和Struts2的区别
+之前在S2SH中的Struts2在这里变为SpringMVC，等于是把View层换了一个框架
+
+首先struts是过滤器filter，springmvc是基于"/>
     
 
     <!--Author-->
@@ -28,7 +33,12 @@
 
     <!--Open Graph Description-->
     
-        <meta property="og:description" content="前言：之前在S2SH中的Struts2在这里变为SpringMVC，等于是把View层换了一个框架，首先struts是过滤器filter，springmvc是基于servlet的前端控制器，Struts2是基于类开发的，传递的参数是通过类的属性传递(属性驱动和模型驱动),所以只能设计成多例proto"/>
+        <meta property="og:description" content="前言：本文没有什么技术性问题，就是为了描述SSH框架中单个框架所充当的什么角色，以及开发流程注意点，建议的开发流程
+
+和Struts2的区别
+之前在S2SH中的Struts2在这里变为SpringMVC，等于是把View层换了一个框架
+
+首先struts是过滤器filter，springmvc是基于"/>
     
 
     <!--Open Graph Site Name-->
@@ -220,8 +230,91 @@
 
             <!-- Post Main Content -->
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <p>前言：之前在S2SH中的Struts2在这里变为SpringMVC，等于是把View层换了一个框架，首先struts是过滤器filter，springmvc是基于servlet的前端控制器，Struts2是基于类开发的，传递的参数是通过类的属性传递(属性驱动和模型驱动),所以只能设计成多例prototype，SpringMvc是基于类中的方法开发的，也就是一个url对应一个方法，传递参数是传到方法的形参上面，所以既可以是单例模式也可以是多例模式singiton，Struts2采用的是值栈存储请求以及响应数据，OGNL存取数据，SpringMvc采用request来解析请求内容，然后由其内部的getParameter给方法中形参赋值，再把后台处理过的数据通过ModelAndView对象存储，Model存储数据，View存储返回的页面，再把对象通过request传输到页面去。个人感觉springMVC的注解使用起来很方便，并且自带的视图解析器可以直接指定对应的jsp，在struts中需要大量的action配置标签来指定目标jsp，所以选择springmvc也是一个好的选择</p>
+                <p>前言：本文没有什么技术性问题，就是为了描述SSH框架中单个框架所充当的什么角色，以及开发流程注意点，建议的开发流程</p>
 <hr>
+<h3 id="和Struts2的区别"><a href="#和Struts2的区别" class="headerlink" title="和Struts2的区别"></a>和Struts2的区别</h3><ul>
+<li><p>之前在S2SH中的Struts2在这里变为SpringMVC，等于是把View层换了一个框架</p>
+</li>
+<li><p>首先struts是过滤器filter，springmvc是基于servlet的前端控制器</p>
+</li>
+<li><p>Struts2是基于类开发的，传递的参数是通过类的属性传递(属性驱动和模型驱动)（就是说在form表单提交到action时候，action类用get方法能得到表单提交的数据）,所以只能设计成多例prototype<--->SpringMvc是基于类中的方法开发的，也就是一个url对应一个方法，传递参数是传到方法的形参上面，所以既可以是单例模式也可以是多例模式singiton,注解传递参数</---></p>
+</li>
+<li><p>Struts2采用的是值栈存储请求以及响应数据，OGNL存取数据<--->SpringMvc采用request来解析请求内容，然后由其内部的getParameter给方法中形参赋值，再把后台处理过的数据通过ModelAndView对象存储，Model存储数据，View存储返回的页面，再把对象通过request传输到页面去</---></p>
+</li>
+<li><p>个人感觉springMVC的注解使用起来很方便，并且自带的视图解析器可以直接指定对应的jsp，在struts中需要大量的action配置标签来指定目标jsp，所以选择springmvc也是一个好的选择</p>
+</li>
+</ul>
+<h3 id="层次说明"><a href="#层次说明" class="headerlink" title="层次说明"></a>层次说明</h3><hr>
+<h4 id="表示层（springMVC模块）"><a href="#表示层（springMVC模块）" class="headerlink" title="表示层（springMVC模块）"></a>表示层（springMVC模块）</h4><ul>
+<li><p>SpringMVC负责表示层，使用注解，视图解析器，</p>
+</li>
+<li><p>Controller层：主要负责具体的业务模块流程控制，也就是你看到的controller包。</p>
+</li>
+<li><p>Controller层通过要调用Service层的接口来控制业务流程，控制的配置也同样是在Spring的xml配置文件里面，针对具体的业务流程，会有不同的控制器。</p>
+</li>
+<li><p>负责前台jsp页面的展示，此层需要与Controller层结合起来开发。</p>
+</li>
+<li><p>Jsp发送请求，controller接收请求，处理，返回，jsp回显数据。</p>
+</li>
+</ul>
+<h4 id="Service层（spring模块）"><a href="#Service层（spring模块）" class="headerlink" title="Service层（spring模块）"></a>Service层（spring模块）</h4><ul>
+<li><ul>
+<li>Service层：主要负责业务模块的逻辑应用设计。也就是项目中你看到的Service包。</li>
+</ul>
+</li>
+<li><p>Service层的设计首先是设计接口，再设计其实现的类。也就是项目中你看到的service+impl包。</p>
+</li>
+<li><p>接着再在Spring的xml配置文件中配置其实现的关联。这样我们就可以在应用中调用Service接口来进行业务处理。</p>
+</li>
+<li><p>最后通过调用DAO层已定义的接口，去实现Service具体的实现类。</p>
+</li>
+<li><p>ps:(Service层的业务实现，具体要调用到已定义的DAO层的接口.)</p>
+</li>
+</ul>
+<h4 id="1-持久层：DAO层（属于Hibernate模块）"><a href="#1-持久层：DAO层（属于Hibernate模块）" class="headerlink" title="1.持久层：DAO层（属于Hibernate模块）"></a>1.持久层：DAO层（属于Hibernate模块）</h4><ul>
+<li><p>hibernate集成与spring可以直接在spring配置文件中写xml</p>
+</li>
+<li><p>配置datasource hibernatemapping引用实体对应映射xml文件</p>
+</li>
+<li><p>hibernate事务的配置</p>
+</li>
+<li><p>hibernate实体类对应的bean.hbm.xml的配置</p>
+</li>
+</ul>
+<h3 id="建议搭建流程"><a href="#建议搭建流程" class="headerlink" title="建议搭建流程"></a>建议搭建流程</h3><ul>
+<li><p>先配置web.xml的spring和springmvc路径以及过滤器，监听器等</p>
+</li>
+<li><p>配置spring.xml和hibernate集成</p>
+</li>
+<li><p>配置springmvc的注解，以及扫描，</p>
+</li>
+<li><p>配置springmvc对于service层的配置，主要是aop和事务的管理</p>
+</li>
+<li><p>开发实体类以及对应的hbm.xml文件</p>
+</li>
+<li><p>编写dao方法，引用datasource</p>
+</li>
+<li><p>编写service接口以及实现类，引用dao</p>
+</li>
+<li><p>编写controller引用service</p>
+</li>
+<li><p>建议对应的jsp前台页面和controller一起写，因为需要数据的传递</p>
+</li>
+</ul>
+<h3 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h3><ul>
+<li><p>客户端发送请求</p>
+</li>
+<li><p>springmvc拦截请求，并找到对应的controller类进行特定的方法处理</p>
+<p>1.这里controller会调用service，service调用dao</p>
+<ol start="2">
+<li>dao用hibernate的持久化操作，不管是session还是hql，对数据库以实体类配置的方式进行映射修改数据</li>
+</ol>
+</li>
+<li><p>完成数据库操作，返回标识给service-&gt;controller-&gt;把标识返回给前台（这个标识代表可能是添加数据返回的boolean值，也可能是查询返回的装载着数据的实体类）</p>
+</li>
+<li><p>前台接受数据并展示在页面，反馈给用户</p>
+</li>
+</ul>
 
 
                 
