@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="前言：前言：本文没有什么技术性问题，就是为了描述S2SH框架中单个框架所充当的什么角色，以及开发流程注意点，建议的开发流程
+
+分层方式简单描述
+modle层就是对应的数据库表的实体类。
+
+Dao层是使用了Hibernate连接数据库、操作数据库（增删改查）。
+
+Service层：引用对应的Dao数据"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Lothar"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="S2SH集成框架的分层关系说明"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="前言：前言：本文没有什么技术性问题，就是为了描述S2SH框架中单个框架所充当的什么角色，以及开发流程注意点，建议的开发流程
+
+分层方式简单描述
+modle层就是对应的数据库表的实体类。
+
+Dao层是使用了Hibernate连接数据库、操作数据库（增删改查）。
+
+Service层：引用对应的Dao数据"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Mr.Zhao"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://Lotharing.github.io/Lotharing.github.iohttp://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://Lotharing.github.io/Lotharing.github.iohttp://img18.3lian.com/d/file/201709/06/abe5dbb32185dabfc7501ee3188d6964.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>S2SH集成框架的分层关系说明 - Mr.Zhao</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Lotharing.github.io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+    <link rel="icon" href="[object Object]"/>
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Lotharing.github.io/">Lothar</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Lotharing.github.io/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Lotharing/Lotharing.github.io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536730264655&di=3db9b0e338d4cddede925eb987b18710&imgtype=0&src=http%3A%2F%2Fimg18.3lian.com%2Fd%2Ffile%2F201708%2F30%2F9de1fa7c9449b7d90d48a8feb973f34d.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>S2SH集成框架的分层关系说明</h1>
+                    
+                    <h2 class="post-subheading">
+                        对后台开发中使用Struts2+spring+hibernate时候，单个框架在项目中充当的角色以及对开发流程的建议
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by LuTong.Zhao on
+                        
+                        
+                            2018-09-12
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Lotharing.github.io/tags/《S2SH》/">#《S2SH》</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/Lotharing.github.io/categories/项目中集成框架充当的角色/">项目中集成框架充当的角色</a>
+
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>前言：前言：本文没有什么技术性问题，就是为了描述S2SH框架中单个框架所充当的什么角色，以及开发流程注意点，建议的开发流程</p>
+<hr>
+<h4 id="分层方式简单描述"><a href="#分层方式简单描述" class="headerlink" title="分层方式简单描述"></a>分层方式简单描述</h4><ul>
+<li><p>modle层就是对应的数据库表的实体类。</p>
+</li>
+<li><p>Dao层是使用了Hibernate连接数据库、操作数据库（增删改查）。</p>
+</li>
+<li><p>Service层：引用对应的Dao数据库操作，在这里可以编写自己需要的代码（比如简单的判断）。</p>
+</li>
+<li><p>Action层：引用对应的Service层，在这里结合Struts的配置文件，跳转到指定的页面，当然也能接受页面传递的请求数据，也可以做些计算处理。</p>
+</li>
+<li><p>以上的Hibernate，Struts，都需要注入到Spring的配置文件中，Spring把这些联系起来，成为一个整体。</p>
+</li>
+<li><p>对于struts2项目的基本框架，action从service接口得到数据负责处理业务与过滤业务，把数据给网页。</p>
+</li>
+<li><p>service是定义接口，serviceimpl是定义接口的实现，是功能代码编写地方，它从DaoImpl接口中得到数据，而dao是对数据库进行操作的代码。</p>
+</li>
+<li><p>简而言之，action调用serviceimpl，service实现serviceimpl，serviceimpl调用daoimpl，dao实现daoimpl</p>
+</li>
+</ul>
+<h4 id="spring的作用"><a href="#spring的作用" class="headerlink" title="spring的作用"></a>spring的作用</h4><ul>
+<li>在SSH框假中spring充当了管理容器的角色。我们都知道Hibernate用来做持久层，因为它将JDBC做了一个良好的封装，程序员在与数据库进行交互时可以不用书写大量的SQL语句。Struts是用来做应用层的，他它负责调用业务逻辑serivce层。所以SSH框架的流程大致是：Jsp页面—-Struts——Service（业务逻辑处理类）—Hibernate（左到右）struts负责控制Service（业务逻辑处理类），从而控制了Service的生命周期，这样层与层之间的依赖和强，属于耦合。这时，使用spring框架就起到了控制Action对象（Strus中的）和Service类的作用，两者之间的关系就松散了，Spring的Ioc机制（控制反转和依赖注入）正是用在此处。</li>
+</ul>
+<h5 id="IOC的好处"><a href="#IOC的好处" class="headerlink" title="IOC的好处"></a>IOC的好处</h5><ul>
+<li><p>控制反转：就是由容器控制程序之间的（依赖）关系，而非传统实现中，由程序代码直接操控。</p>
+</li>
+<li><p>依赖注入：组件之间的依赖关系由容器在运行期决定 ，由容器动态的将某种依赖关系注入到组件之中。</p>
+</li>
+<li><p>从上面我们不难看出：从头到尾Action仅仅是充当了Service的控制工具，这些具体的业务方法是怎样实现的，他根本就不会管，也不会问，他只要知道这些业务实现类所提供的方法接口就可以了。而在以往单独使用Struts框架的时候，所有的业务方法类的生命周期，甚至是一些业务流程都是由Action来控制的。层与层之间耦合性太紧密了，既降低了数据访问的效率又使业务逻辑看起来很复杂，代码量也很多。，Spring容器控制所有Action对象和业务逻辑类的生命周期，由与上层不再控制下层的生命周期，层与层之间实现了完全脱耦，使程序运行起来效率更高，维护起来也方便。</p>
+</li>
+</ul>
+<h5 id="AOP的好处"><a href="#AOP的好处" class="headerlink" title="AOP的好处"></a>AOP的好处</h5><ul>
+<li>在以往的JDBCTemplate中事务提交成功，异常处理都是通过Try/Catch 来完成，而在Spring中。Spring容器集成了TransactionTemplate，她封装了所有对事务处理的功能，包括异常时事务回滚，操作成功时数据提交等复杂业务功能。这都是由Spring容器来管理，大大减少了程序员的代码量，也对事务有了很好的管理控制。Hibernate中也有对事务的管理，hibernate中事务管理是通过SessionFactory创建和维护Session来完成。而Spring对SessionFactory配置也进行了整合，不需要在通过hibernate.cfg.xml来对SessionaFactory进行设定。这样的话就可以很好的利用Sping对事务管理强大功能。避免了每次对数据操作都要现获得Session实例来启动事务/提交/回滚事务还有繁琐的Try/Catch操作。这些也就是Spring中的AOP（面向切面编程）机制很好的应用。一方面使开发业务逻辑更清晰、专业分工更加容易进行。另一方面就是应用Spirng  AOP隔离降低了程序的耦合性使我们可以在不同的应用中将各个切面结合起来使用大大提高了代码重用度</li>
+</ul>
+<h4 id="Hibernate的好处"><a href="#Hibernate的好处" class="headerlink" title="Hibernate的好处"></a>Hibernate的好处</h4><ul>
+<li><p>第一：数据库连接不需要我们自己来管理，如打开和关闭（优点吧）</p>
+</li>
+<li><p>第二：Hibernate对原来的SQL语句进行了封装，以前写很多SQL语句，现在你在保存的时候直接可以用 SAVE（对象）来实现了。（节省代码吧）</p>
+</li>
+<li><p>第三：原来是对表操作，现在是对对象操作，想法上是不是更好呢？都是对象。</p>
+</li>
+</ul>
+<h4 id="Struts的作用"><a href="#Struts的作用" class="headerlink" title="Struts的作用"></a>Struts的作用</h4><ul>
+<li><p>获取表单内容,并组织生成参数对象</p>
+</li>
+<li><p>根据请求的参数转发请求给适当的控制器</p>
+</li>
+<li><p>在控制器中调用业务接口</p>
+</li>
+<li><p>将业务接口返回的结果包装起来发送给指定的视图,并由视图完成处理结果的展现</p>
+</li>
+<li><p>做一些简单的校验或是国际化工作</p>
+</li>
+</ul>
+<h4 id="总体架构作用描述"><a href="#总体架构作用描述" class="headerlink" title="总体架构作用描述"></a>总体架构作用描述</h4><ul>
+<li><p>简单来说：struts 控制用的，hibernate 操作数据库的，spring 用解耦的</p>
+</li>
+<li><p>详细来说：</p>
+</li>
+</ul>
+<p>1.Struts 在 SSH 框架中起控制的作用 , 其核心是 Controller, 即 ActionServlet, 而 ActionServlet 的核心就是 Struts-confi g.xml. 主要控制逻辑关系的处理 .</p>
+<p>2.Hibernate 是数据持久化层 , 是一种新的对象、关系的映射工具 , 提供了从 Java 类到数据表的映射，也提供了数据查询和恢复等机制 , 大大减少数据访问的复杂度。把对数据库的直接操作 , 转换为对持久对象的操作 .</p>
+<p>3.Spring 是一个轻量级的控制反转 (IoC) 和面向切面 (AOP) 的容器框架 , 面向接口的编程 , 由容器控制程序之间的（依赖）关系，而非传统实现中，由程序代码直接操控。这也就是所谓 “ 控制反转 ” 的概念所在：（依赖）控制权由应用代码中转到了外部容器，控制权的转移，是所谓反转。依赖注入，即组件之间的依赖关系由容器在运行期决定，形象的来说，即由容器动态的将某种依赖关系注入到组件之中,起到的主要作用是解耦</p>
+<h4 id="执行过程以及作用"><a href="#执行过程以及作用" class="headerlink" title="执行过程以及作用"></a>执行过程以及作用</h4><ul>
+<li>struts 负责 web 层 .</li>
+</ul>
+<p>1.ActionFormBean 接收网页中表单提交的数据，然后通过 Action 进行处理，再 Forward 到对应的网页。</p>
+<p>2.在 struts-config.xml 中定义 <action-mapping>, ActionServlet 会加载。</action-mapping></p>
+<ul>
+<li>spring 负责业务层管理，即 Service （或 Manager).</li>
+</ul>
+<p>1 ． service 为 action 提供统计的调用接口，封装持久层的 DAO.</p>
+<p>2 ．可以写一些自己的业务方法。</p>
+<p>3 ．统一的 javabean 管理方法</p>
+<p>4 ．声明式事务管理</p>
+<ol start="5">
+<li>集成 Hiberante</li>
+</ol>
+<ul>
+<li>Hiberante ，负责持久化层，完成数据库的 crud 操作</li>
+</ul>
+<p>1.hibernate 为持久层，提供 OR/Mapping 。</p>
+<p>2.它有一组 .hbm.xml 文件和 POJO, 是跟数据库中的表相对应的。然后定义 DAO ，这些是跟数据库打交道的类，它们会使用 PO 。</p>
+<p>3.在 struts+spring+hibernate 的系统中，</p>
+<p>4.对象的调用流程是： jsp-&gt; Action － &gt; Service -&gt;DAO -&gt;Hibernate 。</p>
+<p>5.数据的流向是 ActionFormBean 接受用户的数据， Action 将数据从 ActionFromBean 中取出，封装成 VO 或 PO,</p>
+<p>6.再调用业务层的 Bean 类，完成各种业务处理后再 forward 。而业务层 Bean 收到这个 PO 对象之后，会调用 DAO 接口方法，进行持久化操作。</p>
+<ul>
+<li><p>spring:Aop管理事务控制,IoC管理各个组件的耦合,DaoTemplate作为常规持久层的快速开发模板!</p>
+</li>
+<li><p>struts:控制层Action,页面标签和Model数据,调用业务层</p>
+</li>
+<li><p>Hibernate:负责数据库和对象的映射,负责DAO层(Data Access Object:数据访问)</p>
+</li>
+<li><p>spring整合hibernate和struts，只要在配好了applicationContext.xml,在struts的action中直接调用就可以了。hibernate访问数据库的操作都在spring中实现了，spring的调用又在stuts的action中实现了。这个ssh框架就连到了一起……</p>
+</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li><p>其实，就算用Java建造一个不是很烦琐的web应用，也不是件轻松的事情。 在构架的一开始就有很多事情要考虑。从高处看，摆在开发者面前有很多问题：要考虑是怎样建立用户接口？在哪里处理业务逻辑？ 怎样持久化的数据。 而这三层构架中，每一层都有他们要仔细考虑的。 各个层该使用什么技术？怎样的设计能松散耦合还能灵活改变？ 怎样替换某个层而不影响整体构架？应用程序如何做各种级别的业务处理（比如事务处理）？</p>
+</li>
+<li><p>构架一个Web应用需要弄明白好多问题。 幸运的是，已经有不少开发者已经遇到过这类问题，并且建立了处理这类问题的框架。 一个好框架具备以下几点：减轻开发者处理复杂题的负担（”不重复发明轮子”）；内部有良好的扩展； 并且有一个支持它的强大的用户团体。 好的构架一般有针对性的处理某一类问题，并且能将它做好（Do One Thing wel。 然而，你的程序中有几个层可能需要使用特定的框架，已经完成的UI(用户接口) 并不代表你也可以把你的业务逻辑和持久逻辑偶合到你的UI部分。 举个例子，你不该个Controller(控制器)里面写JDBC代码作为你的业务逻辑， 这不是控制器应该提供的。 一个UI 控制器应该委派给其它给在UI范围之外的轻量级组件。 好的框架应该能指导如何分布。 更重要的是，框架能把开发者从编码中解放出来，使他们能专心于应用程序的逻辑（这对客户来说很重要）。</p>
+</li>
+<li><p>他们里面有很我优秀的设计理念及模式应用。比如， struts属于MVC框架，关键是要了解MVC的概念及大致原理，掌握就很容易了；而hibernate属于orm系统，属于持久层的解决方案，同样需要对ORM的概念及原理有一个总体的了解，必要时可以去查查EJB1及EJB2里面用于持久层的Entity Bean的使用。而spring属于应用程序框架，其核心是IOC容器以及AOP，把这两个核心概念(也可称为大模式)了解以后，再加上一定的内力修为，其它就都不难了。Spring中还集成了很多适用东西(不过这些东西80%的在某一个项目中可能一直用不上)，比如对JDBC的封装、自己的MVC、对动态语言的简洁访问等，这些你根据自己的项目情况来选择学习，用到的时候再看看他的文档，一个项目下来应该就能把握。</p>
+</li>
+</ul>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Lotharing/Lotharing.github.io" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2018 Lothar<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+                <p class="copyright text-muted">2018总访问量<span id="busuanzi_value_site_pv"></span>次</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
