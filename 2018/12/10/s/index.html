@@ -182,7 +182,7 @@ purchase
     <!-- Page Header -->
 <!-- Set your background image for this header in your post front-matter: cover -->
 
-<header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
+<header class="intro-header" style="background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1544447435671&di=ab0f72253ed40f1562d5c81b2922ecc9&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F4%2F54795d25701f8.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -258,9 +258,21 @@ purchase
 <h3 id="对腾讯云MySQL的连接以及使用"><a href="#对腾讯云MySQL的连接以及使用" class="headerlink" title="对腾讯云MySQL的连接以及使用"></a>对腾讯云MySQL的连接以及使用</h3><ul>
 <li><p>通过CMD管理员身份登陆，输入 mysql -h xxxxx.com -p 端口号 -u 用户名 -p 密码(控制台相关操作)</p>
 </li>
-<li><p>通过内网地址连接数据库，msyql -h 本地IP地址</p>
+<li><p>通过内网地址连接数据库，msyql -h 172.21.0.5 -p 3306 -u root -p password</p>
+</li>
+<li><p>通过使用MySQLWorkBench建立新连接，连接地址是cdb-<strong><em>**</em></strong>.bj.tencentcdb.com，端口号是10022，账户root，密码 <strong>***</strong></p>
 </li>
 </ul>
+<h3 id="本地可视化工具连接"><a href="#本地可视化工具连接" class="headerlink" title="本地可视化工具连接"></a>本地可视化工具连接</h3><ul>
+<li>如往常一样进行，建库，建表等操作。</li>
+</ul>
+<h3 id="项目的引用"><a href="#项目的引用" class="headerlink" title="项目的引用"></a>项目的引用</h3><ul>
+<li>在配置文件中，建立连接： jdbc:mysql://cdb-<strong><em>**</em></strong>.bj.tencentcdb.com:10022/sys?useSSL=true”</li>
+</ul>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><hr>
+<p>原因是 MySQL 5.5.45+, 5.6.26+ and 5.7.6这些版本的数据库需要手动指定SSL是否开启，所以原来的连接字符串：<br>jdbc.url=jdbc:mysql://127.0.0.1:3306/db_name?userUnicode=true&amp;characterEncoding=UTF8就不可以了。<br>需要在其后附加useSSL=true或false，使用新的连接字符串：<br>jdbc.url=jdbc:mysql://127.0.0.1:3306/db_name?userUnicode=true&amp;characterEncoding=UTF8&amp;useSSL=false问题就解决了。</p>
+<p>参考建立连接教程<a href="https://blog.csdn.net/weixin_38247439/article/details/82968150" target="_blank" rel="noopener">Click</a></p>
+<hr>
 
 
                 
