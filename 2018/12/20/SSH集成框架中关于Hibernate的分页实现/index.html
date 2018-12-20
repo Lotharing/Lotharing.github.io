@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="前言：分页的实现方式有各种各样但是思想却百变不离其宗，这篇文章主要介绍在Hibernate中分页的实现
+
+分页所展示信息的实体类
+例如Book实体，建立Book对应属性为id和name的实体类
+
+1234567891011121314151617181920212223242526272829303"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Leyton"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="SSH集成框架中关于Hibernate的分页实现"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="前言：分页的实现方式有各种各样但是思想却百变不离其宗，这篇文章主要介绍在Hibernate中分页的实现
+
+分页所展示信息的实体类
+例如Book实体，建立Book对应属性为id和name的实体类
+
+1234567891011121314151617181920212223242526272829303"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="Mr.Zhao"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://Lotharing.github.io/Lotharing.github.iohttps://i.loli.net/2018/12/10/5c0e4ee80e8c0.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://Lotharing.github.io/Lotharing.github.iohttps://i.loli.net/2018/12/10/5c0e4ee80e8c0.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>SSH集成框架中关于Hibernate的分页实现 - Mr.Zhao</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Lotharing.github.io/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+    <link rel="icon" href="[object Object]"/>
+    
+
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Lotharing.github.io/">Lothar</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/Lotharing.github.io/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/Lotharing.github.io/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/Lotharing/Lotharing.github.io">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('https://i.loli.net/2018/12/20/5c1b65d20d1e5.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>SSH集成框架中关于Hibernate的分页实现</h1>
+                    
+                    <h2 class="post-subheading">
+                        教程记录了在Springmvc+spring+hibername集成框架中，分页功能的实现。
+                    </h2>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by LuTong.Zhao on
+                        
+                        
+                            2018-12-20
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/Lotharing.github.io/tags/《分页》/">#《分页》</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                        
+
+<a href="/Lotharing.github.io/categories/集成框架中的通用功能模块实现/">集成框架中的通用功能模块实现</a>
+
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>前言：分页的实现方式有各种各样但是思想却百变不离其宗，这篇文章主要介绍在Hibernate中分页的实现</p>
+<hr>
+<h3 id="分页所展示信息的实体类"><a href="#分页所展示信息的实体类" class="headerlink" title="分页所展示信息的实体类"></a>分页所展示信息的实体类</h3><ul>
+<li>例如Book实体，建立Book对应属性为id和name的实体类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> top.lothar.bean;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图书实体类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Lothar</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Book</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Book</span><span class="params">(<span class="keyword">long</span> id, String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> id;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">long</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="建立相应的分页类"><a href="#建立相应的分页类" class="headerlink" title="建立相应的分页类"></a>建立相应的分页类</h3><ul>
+<li><p>主要有查询出的总记录数，每页的记录数，当前页，总页数，存放Book的List集合这几个属性</p>
+</li>
+<li><p>有获取当前页数方法，获取当前起始记录数方法，获取总页数方法</p>
+</li>
+<li><p>代码省略了get，set方法，以及有参构造和无参构造</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> top.lothar.bean;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 分页类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Lothar</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PageBean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//总记录数</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> allRowCounts;</span><br><span class="line">	<span class="comment">//每页记录数</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> pageSize;</span><br><span class="line">	<span class="comment">//当前页</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> curPage;</span><br><span class="line">	<span class="comment">//总页数</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> sumPages;</span><br><span class="line">	<span class="comment">//存放books的List</span></span><br><span class="line">	<span class="keyword">public</span> List&lt;Book&gt; books = <span class="keyword">new</span> ArrayList&lt;Book&gt;();</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 获取当前页的页数</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> page</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">curPage</span><span class="params">(<span class="keyword">int</span> page)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> page == <span class="number">0</span> ? <span class="number">1</span> : page;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 获取当前页的起始记录数</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> pageSize</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> curPage</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">curOffset</span><span class="params">(<span class="keyword">int</span> pageSize , <span class="keyword">int</span> curPage)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> pageSize * (curPage - <span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 获取总的页数</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> allRowCounts</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> pageSize</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getSumPages</span><span class="params">(<span class="keyword">int</span> allRowCounts , <span class="keyword">int</span> pageSize)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> allRowCounts%pageSize == <span class="number">0</span> ? allRowCounts/pageSize :(allRowCounts/pageSize + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="DAO的编写（从底层到前台开发步骤）"><a href="#DAO的编写（从底层到前台开发步骤）" class="headerlink" title="DAO的编写（从底层到前台开发步骤）"></a>DAO的编写（从底层到前台开发步骤）</h3><ul>
+<li><p>主要有分页查询方法，查询总记录数方法</p>
+</li>
+<li><p>注：Hibernate主要通过</p>
+<blockquote>
+<p>1.query.setFirstResult(“起始位置”)<br>2.query.setMaxResults(“查询长度”);<br>类似于MySQL语句，select * from book limit 起始位置 ，查询长度</p>
+</blockquote>
+</li>
+<li><p>代码关于springmvc的注入，以及通用打开session方法不在展示</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> List&lt;Book&gt; <span class="title">findForPage</span><span class="params">(String hql, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		Session session = <span class="keyword">null</span>;</span><br><span class="line">		List&lt;Book&gt; books = <span class="keyword">null</span>;</span><br><span class="line">		session = currentSession();</span><br><span class="line"></span><br><span class="line">		Query query = session.createQuery(hql);</span><br><span class="line">		query.setFirstResult(off);</span><br><span class="line">		query.setMaxResults(len);</span><br><span class="line"></span><br><span class="line">		books = query.list();</span><br><span class="line">		session.close();</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> books;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 查询记录总数</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findAllRowCounts</span><span class="params">(String hql)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		Session session = <span class="keyword">null</span>;</span><br><span class="line">		session = currentSession();</span><br><span class="line">		Query query = session.createQuery(hql);</span><br><span class="line">		<span class="keyword">return</span> query.list().size();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="service业务层的编写"><a href="#service业务层的编写" class="headerlink" title="service业务层的编写"></a>service业务层的编写</h3><ul>
+<li><p>编写调用dao所需要的sql语句</p>
+</li>
+<li><p>利用PageBean类的三个static方法获得所需要的分页数据</p>
+</li>
+<li><p>调用dao得到相应的数据信息</p>
+</li>
+<li><p>把得到的信息装载到PageBean中去，并返回pageBean供controller使用</p>
+</li>
+<li><p>关于springmvc中bean的引用不在描述，也就是注解和扫描器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> PageBean <span class="title">queryForPage</span><span class="params">(<span class="keyword">int</span> pageSize, <span class="keyword">int</span> page)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		String hql = <span class="string">"from Book book order by book.id"</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//查询记录总数</span></span><br><span class="line">		<span class="keyword">int</span> allRowCounts = bookDao.findAllRowCounts(hql);</span><br><span class="line">		<span class="comment">//当前页</span></span><br><span class="line">		<span class="keyword">int</span> curPage = PageBean.curPage(page);</span><br><span class="line">		<span class="comment">//当前页的起始记录是(0,5,..)</span></span><br><span class="line">		<span class="keyword">int</span> curOffset = PageBean.curOffset(pageSize, curPage);</span><br><span class="line">		<span class="comment">//一共多少页</span></span><br><span class="line">		<span class="keyword">int</span> sumPages = PageBean.getSumPages(allRowCounts, pageSize);</span><br><span class="line"></span><br><span class="line">		List&lt;Book&gt; books = bookDao.findForPage(hql, curOffset, pageSize);</span><br><span class="line"></span><br><span class="line">		PageBean pageBean = <span class="keyword">new</span> PageBean();</span><br><span class="line">		pageBean.setAllRowCounts(allRowCounts);</span><br><span class="line">		pageBean.setCurPage(curPage);</span><br><span class="line">		pageBean.setSumPages(sumPages);</span><br><span class="line">		pageBean.setBooks(books);<span class="comment">//每一页应该显示的各个记录</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> pageBean;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Controller的编写"><a href="#Controller的编写" class="headerlink" title="Controller的编写"></a>Controller的编写</h3><ul>
+<li><p>写请求所要执行的对应方法，使用@RequestMapping注解</p>
+</li>
+<li><p>方法传递所需要的参数，page-当前页，因为service中需要根据page属性调用PageBean中的static方法得到其他属性</p>
+</li>
+<li><p>分页安全问题 ，页码的限制不能小于0，不能大于总页数</p>
+</li>
+<li><p>调用Service，得到所获取的List对象，存在Model中，返回视图解析器所需要的String类型</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> top.lothar.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.ui.Model;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> top.lothar.bean.Book;</span><br><span class="line"><span class="keyword">import</span> top.lothar.bean.PageBean;</span><br><span class="line"><span class="keyword">import</span> top.lothar.service.BookService;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> BookService bookService;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> PageBean pageBean;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">	<span class="keyword">private</span> List&lt;Book&gt; books = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@RequestMapping</span>(value = <span class="string">"page.spring"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">paging</span><span class="params">(<span class="keyword">int</span> page , Model model)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//这部分很不合理，应该直接获取总页数，便于下边else if 的判断，但是下边判断条件不能直接写，因为第一次执行时BeanPage中还没有数据</span></span><br><span class="line">		<span class="keyword">int</span> maxPage = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(page&lt;=<span class="number">0</span>)&#123;</span><br><span class="line">			page = <span class="number">1</span> ;</span><br><span class="line">			System.out.println(page+<span class="string">"----小于0的时候将page初始化为1"</span>);</span><br><span class="line">			currentPage(page, model);</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(page&gt;maxPage)&#123;</span><br><span class="line">			page = pageBean.getSumPages();</span><br><span class="line">			System.out.println(<span class="string">"当前page="</span>+page+<span class="string">"----大于"</span>+pageBean.getSumPages()+<span class="string">"的时候将page初始化为"</span>+pageBean.getSumPages());</span><br><span class="line">			currentPage(page, model);</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			System.out.println(<span class="string">"page="</span>+page+<span class="string">"在页码安全范围之内"</span>);</span><br><span class="line">			currentPage(page, model);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"page"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 通用分页查询功能</span></span><br><span class="line"><span class="comment">	 * 通用存储域功能</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> page</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> model</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">currentPage</span><span class="params">(<span class="keyword">int</span> page , Model model)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.pageBean = bookService.queryForPage(<span class="number">4</span>, page);</span><br><span class="line">		<span class="keyword">this</span>.books = <span class="keyword">this</span>.pageBean.getBooks();</span><br><span class="line">		<span class="comment">//存入model对象</span></span><br><span class="line">		model.addAttribute(<span class="string">"pageBean"</span> , pageBean);</span><br><span class="line">		model.addAttribute(<span class="string">"page"</span>,page);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="关于前台El表达式，展示数据，操作上下页的实现"><a href="#关于前台El表达式，展示数据，操作上下页的实现" class="headerlink" title="关于前台El表达式，展示数据，操作上下页的实现"></a>关于前台El表达式，展示数据，操作上下页的实现</h3><ul>
+<li>导入El所需要的jar包，并引用</li>
+</ul>
+<blockquote>
+<p>&lt;%@taglib uri=”<a href="http://java.sun.com/jsp/jstl/core&quot;" target="_blank" rel="noopener">http://java.sun.com/jsp/jstl/core&quot;</a> prefix=”c” %&gt;</p>
+</blockquote>
+<ul>
+<li><p>使用forEach遍历List</p>
+</li>
+<li><p>展示使用标准的EL，JSTL表达式</p>
+</li>
+<li><p>上下页使用了a标签链接的形式，控制page参数往controller传递</p>
+</li>
+<li><p>css部分不再描述</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"info"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">c:forEach</span> <span class="attr">items</span>=<span class="string">"$&#123;pageBean.books &#125;"</span> <span class="attr">var</span>=<span class="string">"book"</span> <span class="attr">begin</span>=<span class="string">"0"</span> <span class="attr">end</span>=<span class="string">"5"</span>&gt;</span></span><br><span class="line">			ID<span class="tag">&lt;<span class="name">c:out</span> <span class="attr">value</span>=<span class="string">"$&#123;book.id &#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">c:out</span>&gt;</span></span><br><span class="line">			书名:<span class="tag">&lt;<span class="name">c:out</span> <span class="attr">value</span>=<span class="string">"$&#123;book.name &#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">c:out</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">c:forEach</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"page"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"page-a"</span> <span class="attr">href</span>=<span class="string">"page.spring?page=1"</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"page-a"</span> <span class="attr">href</span>=<span class="string">"page.spring?page=$&#123;page-1 &#125;"</span>&gt;</span>上一页<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"page-a"</span> <span class="attr">href</span>=<span class="string">"page.spring?page=$&#123;page+1 &#125;"</span>&gt;</span>下一页<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"page-a"</span> <span class="attr">href</span>=<span class="string">"page.spring?page=$&#123;pageBean.sumPages &#125;"</span>&gt;</span>尾页<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"font"</span>&gt;</span>共<span class="tag">&lt;<span class="name">b</span>&gt;</span>$&#123;pageBean.allRowCounts &#125;<span class="tag">&lt;/<span class="name">b</span>&gt;</span>条记录,共<span class="tag">&lt;<span class="name">b</span>&gt;</span>$&#123;pageBean.sumPages &#125;<span class="tag">&lt;/<span class="name">b</span>&gt;</span>页,当前第<span class="tag">&lt;<span class="name">b</span>&gt;</span>$&#123;pageBean.curPage &#125;<span class="tag">&lt;/<span class="name">b</span>&gt;</span>页<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<ul>
+<li><p>笔者所遗留问题：page的安全性问题，在判断page是否超过最大页，这个最大页的数据的获得，因为程序在if中判断的时候MaxPage的数值是没有存放在域中的，因此不能从pageBean中get得到，所以我在controller中写的是3。</p>
+</li>
+<li><p>按照我的思路，会另写一个查询方法，直接得到总记录数，根据每页所需要展示的多少条数据计算总页数，并把这一数值为private 私有属性，在if中直接对比</p>
+</li>
+</ul>
+<hr>
+<p>说起来分页查询，很早之前就知道了，但是写时候总是啊每次要查一下，记得有次面试的时候，面试官让我描述一下分页的实现，我说的逻辑不是很清楚，因为我写时候也确实不太会，由于要去考英语四级，有两个多月没怎么写过代码了，这是我考完四级回家几天之后回学校开始写代码的第一篇博客，梳理一下分页吧，毕竟分页现在插件还是啊挺多的，学东西要知道其所以然，下一步打算弄弄毕业设计，同时看视屏写一个电商项目。</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/Lotharing/Lotharing.github.io" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2018 Leyton<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+                <p class="copyright text-muted">2018总访问量<span id="busuanzi_value_site_pv"></span>次</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
