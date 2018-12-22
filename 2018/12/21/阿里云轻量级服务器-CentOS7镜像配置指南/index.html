@@ -308,6 +308,29 @@
 </li>
 </ul>
 <hr>
+<h3 id="Tomcat配置后的端口问题"><a href="#Tomcat配置后的端口问题" class="headerlink" title="Tomcat配置后的端口问题"></a>Tomcat配置后的端口问题</h3><ul>
+<li><p>1.安装iptables：yum install iptables-services（阿里云centos7 默认 是使用的firewall，所以要使用iptables需先安装）</p>
+<p>启动： systemctl start firewalld</p>
+<p>关闭： systemctl stop firewalld</p>
+<p>开机禁用  ： systemctl disable firewalld</p>
+<p>开机启用  ： systemctl enable firewalld</p>
+</li>
+<li><p>2.把端口加入到iptables中（加入之前，可使用iptables -L -n查看端口情况）</p>
+<p>vim /etc/sysconfig/iptables</p>
+</li>
+</ul>
+<ul>
+<li>3.重启iptables：systemctl restart iptables.service（重启后，使用 iptables -L -n查看）</li>
+</ul>
+<ul>
+<li><p>阿里云控制台配置安全组端口规则</p>
+</li>
+<li><p>启动Tomcat</p>
+</li>
+<li><p>外网ip：8080测试Tomcat</p>
+</li>
+</ul>
+<hr>
 <p>以上就是阿里云轻量级服务器的购买和配置，比之前用的windows 2008 的服务器好配置多了- -</p>
 
 
